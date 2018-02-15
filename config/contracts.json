@@ -1,0 +1,29 @@
+{
+  "default": {
+    "versions": {
+      "web3.js": "1.0.0-beta",
+      "solc": "0.4.17"
+    },
+    "deployment": {
+      "host": "localhost",
+      "port": 8545,
+      "type": "rpc"
+    },
+    "dappConnection": [
+      "$WEB3",
+      "http://localhost:8545"
+    ],
+    "gas": "auto",
+    "contracts": {
+      "CBDContract": {
+        "deploy": false
+      },
+      "CBDContractFactory": {
+        "args": [
+          "0x7f66b0bea9f606ac79a090b9aaee64ed03349cd6"
+        ]
+      }
+
+    }
+  }
+}
