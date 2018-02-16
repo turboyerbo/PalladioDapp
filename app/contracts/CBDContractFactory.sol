@@ -18,10 +18,11 @@ contract CBDContractFactory {
     // complete it will be removed from this
     // list.  The mapping is id->contract
     // mainly used for iterating over all open contracts
-    uint totalCBDs;
-    uint liveCBDs;
-    mapping(uint => address) public CBDs;
-
+    //uint totalCBDs;
+    //uint liveCBDs;
+    //mapping(uint => address) public CBDs;
+    address[] public CBDs;
+ 
     // The management address is the address that is 
     // allowed to register new verified architects
     address palladioManagement;
@@ -62,32 +63,44 @@ contract CBDContractFactory {
 	constant
 	returns(uint)
     {
-		return liveCBDs;
+		return CBDs.length;
 	}
 
 	function newCBDContract(uint serviceDeposit, uint autoreleaseInterval, string recordBook, string initialStatement)
 	public
 	payable
     checkArchitect(msg.sender, true)
-	returns(address) 
     {
 		//pass along any ether to the constructor
-        CBDContract cbd = (new CBDContract).value(msg.value)(serviceDeposit, autoreleaseInterval, recordBook, initialStatement);
+        uint nextId = CBDs.length;
+        CBDContract cbd = (new CBDContract).value(msg.value)(nextId, serviceDeposit, autoreleaseInterval, recordBook, initialStatement);
 		NewCBD(cbd);
 
 		//save created CBDs in contract array
-        CBDs[totalCBDs] = cbd;
-        totalCBDs += 1;
-        liveCBDs += 1;
-
-		return address(cbd);
+        CBDs.push(cbd);
 	}
 
-    function destructCBDContract(uint contractId)
+    function getCBDContract(uint id)
+    constant
     public
-    contractCompleted(contractId)
+    returns(address)
     {
-        delete CBDs[contractId];
+        return CBDs[id];
+    }
+
+    // A contract may request cleanup here
+    // We always assume for valid reasons,
+    // it is the responsiblity of the contract
+    // to ensure this request is valid
+    function removeCBDContract(uint contractId)
+    public
+    calledFromContract(contractId)
+    {
+        // Shuffle contracts down, remove destructed contract
+        uint numContracts = CBDs.length;
+        CBDs[contractId] = CBDs[numContracts - 1];
+        CBDContract(CBDs[contractId]).setId(contractId);
+        CBDs.length = numContracts - 1;
     }
     
     // Modifiers below:
@@ -110,10 +123,9 @@ contract CBDContractFactory {
         _;
     }
 
-    modifier contractCompleted(uint contractId) {
-        require(CBDs[contractId] != 0);
-        CBDContract cbd = CBDContract(CBDs[contractId]);
-        require(cbd.state() == CBDContract.State.Closed);
+    modifier calledFromContract(uint id) {
+        require(id < CBDs.length);
+        require(msg.sender == CBDs[id]);
         _;
     }
 }

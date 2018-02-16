@@ -1,5 +1,7 @@
 pragma solidity ^0.4.17;
 
+import "./CBDContractFactory.sol";
+
 //*Collaborative Blockchain Design (CBD) begins when the Licensed Architect (Ontario Association of Architects)is: 
 // (1) digitally-verified using their unique Public Key assigned by the Palladio; 
 // (2) creates an open call for submissions; and 
@@ -37,6 +39,13 @@ pragma solidity ^0.4.17;
 // any Associate Architect and any amount of funds.*
 
 contract CBDContract {
+
+	// Cache the address of the owning factory
+	// so we can notify on deletion
+	address factory;
+	// Cache the ID of this 
+	uint id;
+
 //recordBook will never change and must be one of the following:
 //A Design / Construction Documents
 // 1 Programming
@@ -52,8 +61,6 @@ contract CBDContract {
 
     string public recordBook;
 
-
-	
 	//CBD will start with a licensedArchitect but no associateArchitect (associateArchitect==0x0)
 	address public licensedArchitect;
 	address public associateArchitect;
@@ -87,24 +94,7 @@ contract CBDContract {
 	//Note that a CBD cannot go from Committed back to Open, but it can go from Closed back to Committed
 	//(this would retain the committed associateArchitect). Search for Closed and Unclosed events to see how this works.
 
-	modifier inState(State s) {
-		require(s == state);
-		_;
-	}
 
-	modifier onlylicensedArchitect() {
-		require(msg.sender == licensedArchitect);
-		_;
-	}
-
-	modifier onlyassociateArchitect() {
-		require(msg.sender == associateArchitect);
-		_;
-	}
-	modifier onlylicensedArchitectOrassociateArchitect() {
-		require((msg.sender == licensedArchitect) || (msg.sender == associateArchitect));
-		_;
-	}
 
 	event Created(address indexed contractAddress, address _licensedArchitect, uint _serviceDeposit, uint _autoreleaseInterval, string _recordBook);
 	event FundsAdded(address from, uint amount); //The licensedArchitect has added funds to the CBD.
@@ -120,10 +110,14 @@ contract CBDContract {
 	event AutoreleaseTriggered();
 
 
-	function CBDContract(uint _serviceDeposit, uint _autoreleaseInterval, string _recordBook, string initialStatement)
+	function CBDContract(uint _id, uint _serviceDeposit, uint _autoreleaseInterval, string _recordBook, string initialStatement)
 	payable 
 	public
 	{
+		// Cache identifying variables linking us back to factory
+		id = _id;
+		factory = msg.sender;
+
 		licensedArchitect = tx.origin;
 		
 		recordBook = _recordBook;
@@ -145,12 +139,59 @@ contract CBDContract {
 		//Created(this, _licensedArchitect, _serviceDeposit, _autoreleaseInterval, _recordBook);		
 	}
 
+	function setId(uint _id)
+	public
+	isFromFactory()
+	{
+		id = _id;
+	}
+
+	function getId()
+	public
+	constant
+	returns(uint)
+	{
+		return id;
+	}
+
+	function getArchitect()
+	public
+	constant
+	returns(address)
+	{
+		return licensedArchitect;
+	}
+
+	function getAssociate()
+	public
+	constant
+	returns(address)
+	{
+		return associateArchitect;
+	}
+
+	function getState()
+	public
+	constant
+	returns(State)
+	{
+		return state;
+	}
+
 	function getFullState()
 	public
 	constant
 	returns(address, string, State, address, uint, uint, uint, uint, uint, uint) 
 	{
 		return (licensedArchitect, recordBook, state, associateArchitect, this.balance, serviceDeposit, amountDeposited, amountReleased, autoreleaseInterval, autoreleaseTime);
+	}
+
+	function getBalance()
+	public
+	constant
+	returns(uint)
+	{
+		return this.balance;
 	}
 
 	function addFunds()
@@ -173,6 +214,10 @@ contract CBDContract {
 	inState(State.Open) 
 	{
 	    recovered = true;
+		
+		CBDContractFactory owner = CBDContractFactory(factory);
+		owner.removeCBDContract(id);
+
 		FundsRecovered();
 		selfdestruct(licensedArchitect);
 	}
@@ -180,10 +225,9 @@ contract CBDContract {
 	function commit()
 	public
 	inState(State.Open)
+	coversDeposit()
 	payable
 	{
-		require(msg.value == serviceDeposit);
-
 		if (msg.value > 0) {
 			FundsAdded(msg.sender, msg.value);
 			amountDeposited += msg.value;
@@ -196,6 +240,46 @@ contract CBDContract {
 		autoreleaseTime = now + autoreleaseInterval;
 	}
 
+	//////////////////////////////////////////////////////
+
+	function getAutoReleaseTime()
+	public
+	constant
+	inState(State.Committed)
+	returns(uint)
+	{
+		return autoreleaseTime;
+	}
+
+	function release(uint amount)
+	public
+	inState(State.Committed)
+	onlylicensedArchitect() 
+	{
+		internalRelease(amount);
+	}
+
+	function delayAutorelease()
+	public
+	inState(State.Committed) 
+	onlylicensedArchitect()
+	isBeforeAutoRelease()
+	{
+		autoreleaseTime = now + autoreleaseInterval;
+		AutoreleaseDelayed();
+	}
+
+// Autorelease function will send all funds to Associate Architect
+// Automatically sends 2% (in Wei) to Address; returns false on failure.
+
+	function triggerAutoRelease()
+	public
+	inState(State.Committed)
+	isPastAutoRelease()
+	{
+        AutoreleaseTriggered();
+		internalRelease(this.balance);
+	}
 
 	function internalRelease(uint amount)
 	private
@@ -210,16 +294,14 @@ contract CBDContract {
 			state = State.Closed;
 			Closed();
 		}
+
+		CBDContractFactory owner = CBDContractFactory(factory);
+		owner.removeCBDContract(id);
 	}
 
-	function release(uint amount)
-	public
-	inState(State.Committed)
-	onlylicensedArchitect() 
-	{
-		internalRelease(amount);
-	}
+	////////////////////////////////////////////////////////
 
+	// Chat/logging functions
 	function loglicensedArchitectStatement(string statement)
 	public
 	onlylicensedArchitect() 
@@ -234,29 +316,44 @@ contract CBDContract {
 		AssociateArchitectStatement(statement);
 	}
 
-	function delayAutorelease()
-	public
-	onlylicensedArchitect()
-	inState(State.Committed) 
-	{
-		autoreleaseTime = now + autoreleaseInterval;
-		AutoreleaseDelayed();
+	////////////////////////////////////////////////////////
+
+	modifier isFromFactory() {
+		require(msg.sender == factory);
+		_;
 	}
 
-// Autorelease function will send all funds to Associate Architect
-// Automatically sends 2% (in Wei) to Address; returns false on failure.
+	modifier inState(State s) {
+		require(s == state);
+		_;
+	}
 
+	modifier onlylicensedArchitect() {
+		require(msg.sender == licensedArchitect);
+		_;
+	}
 
-	function triggerAutorelease()
-	public
-	onlylicensedArchitect()
-	inState(State.Committed)
-	{
+	modifier onlyassociateArchitect() {
+		require(msg.sender == associateArchitect);
+		_;
+	}
+	modifier onlylicensedArchitectOrassociateArchitect() {
+		require((msg.sender == licensedArchitect) || (msg.sender == associateArchitect));
+		_;
+	}
+
+	modifier coversDeposit() {
+		require(msg.value == serviceDeposit);
+		_;
+	}
+
+	modifier isPastAutoRelease() {
 		require(now >= autoreleaseTime);
-        AutoreleaseTriggered();
-		internalRelease(this.balance);
+		_;
 	}
 
-
-
+	modifier isBeforeAutoRelease() {
+		require(now < autoreleaseTime);
+		_;
+	}
 }
