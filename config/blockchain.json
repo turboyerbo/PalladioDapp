@@ -18,12 +18,15 @@
   "testnet": {
     "enabled": true,
     "networkType": "testnet",
+    "network_id": 0,
     "light": true,
     "rpcHost": "localhost",
     "rpcPort": 8545,
     "rpcCorsDomain": "http://localhost:8000",
     "account": {
-      "password": "config/testnet/password"
+      "init": false,
+      "password": "config/testnet/password",
+      "address": "0x92173bAe269f63221b7c9651AD72AC99953c94A7"
     }
   },
   "livenet": {

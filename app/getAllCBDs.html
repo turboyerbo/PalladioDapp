@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Palladio - get CBD addrs</title>
+    <script type="text/javascript" src='js/lib/embark.js'></script>
+    <script type="text/javascript" src='js/lib/jquery.js'></script>
+    <script type="text/javascript" src='js/lib/constants.js'></script>
+    <script type="text/javascript" src='js/getAllCBDs.js'></script>
+    <!--script type="text/javascript" src="js/tableFilter.js"></script -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body>
+
+    <center><h1><b>Browse CBDs</b></h1><br></center>
+    <a href='/'>Home</a>
+    <input id="resetFilterButton" type="button" value="Reset Filter"><br><br>
+    <table border=1>
+      <thead>
+        <tr>
+          <td>State
+            <select id="stateSelect">
+              <option value="All">All</option>
+              <option value="Open">Open</option>
+              <option value="Committed">Committed</option>
+              <option value="Open_Committed">Open/Committed</option>
+              <option value="Expended">Expended</option>
+            </select>
+          </td>
+          <td>
+            Addresses<br>
+            <input type="text" name="addressFilter" placeholder="Enter Address to filter on.">
+          </td>
+          <td>
+            Payment Info<br>
+            (<span id="held" class="sortable">Held<i class="fa"aria-hidden="true"></i></span>/<span id="threshold" class="sortable">Threshold<i class="fa"aria-hidden="true"></i>)</span>
+          </td>
+          <td>
+            <span id="deposited" class="sortable">Deposited<i class="fa"aria-hidden="true"></i></span>/<br>
+
+            <font color='green'>
+              <span id="released" class="sortable">Released<i class="fa"aria-hidden="true"></i></span>
+            </font>
+          </td>
+          <td>
+            <!--span id="defaultAction">defaultAction<i class="fa"aria-hidden="true"></i></span>/<br>
+            <font color='red' -->
+              <span id="autoreleaseInterval">Auto-Release interval</span>
+            <!--/font>/<br>
+            <font color='green'>
+              <span id="defaultTriggerTime">Auto-Release time<i class="fa"aria-hidden="true"></i></span>
+            </font-->
+          </td>
+          <td>Licensed Archtiect String</td>
+          <td>Associate Architect String</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="mainTableRow">
+          <!-- if ($assoc['state'] == "Open") echo "<tr bgcolor='#ccffcc'>";
+          if ($assoc['state'] == "Committed") echo "<tr bgcolor='#ccccff'>";
+          if ($assoc['state'] == "Expended") echo "<tr bgcolor='#aaaaaa'>"; -->
+          <td class="state">
+            loading...
+          </td>
+          <td>
+            CBD address: <a href='' class='contractAddress'>loading...</a><br>
+            <br>
+            Licensed Architect: <font color="#00aa00" class="licensedArchitectAddress">loading...</font><br>
+            <span class='associateArchitect'></span>
+            <!-- <a href='../layout/interact.html' class='associateArchitect'></a><font color='#5d00ff' ></font> -->
+          </td>
+          <td width='15%'>
+            <font color="blue">
+              <span class="balance">
+                loading...
+              </span> ETH
+            </font>held in CBD<br>
+            <font color="#cc7700">
+              <span class="commitThreshold">
+                loading...
+              </span>
+              ETH</font> commit threshold<br>
+          </td>
+          <td>
+              <font>
+                <span class="fundsDeposited">
+                  loading...
+                <span>
+              </font><br>
+              <br>
+
+              <font color='green'>
+                <span class="fundsReleased">
+                  loading...
+                </span>
+              </font><br>
+          </td>
+          <td>
+              <font>
+                <span class="defaultAction">
+                  loading...
+                <span>
+              </font><br>
+              <font color='red'>
+                <span class="autoreleaseInterval">
+                  loading...
+                </span>
+              </font><br>
+                <span class="autoreleaseTime ">
+                  loading...
+                </span>
+              </font><br>
+          </td>
+          <td class="recordBook" width='25%'>
+            loading...<br>
+          </td>
+          <td class="initialStatement" width='25%'>
+            loading...<br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

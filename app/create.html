@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <script src="js/lib/embark.js"></script>
+  <script src="js/lib/jquery.js"></script>
+  <script src="js/lib/constants.js"></script>
+  <script src="js/create.js"></script>
+  </head>
+  <body class='container'>
+   <big><big><big><b>Create CBD</b></big></big></big><br>
+    <br><br><br>
+   
+    Architect Account: <select id="architectAccount"></select><br><br>
+    Payment Amount: <input id = 'paymentAmountInput' name='paymentAmountInput' type='text'  placeholder='ETH' size='7'><br><br>
+    Commit Threshold: <input id = 'commitThresholdInput' name='commitThresholdInput' type='text' placeholder='ETH' size='7'><br><br>
+    
+    Default Action: <label><input type='radio' name='hasDefaultActionInput' class='hasDefaultActionInput' value='false' checked onclick="document.getElementById('defaultTimeoutLengthInHoursInput').disabled = true;">None</label>
+                    <label><input type='radio' name='hasDefaultActionInput' class='hasDefaultActionInput' value='true' onclick="document.getElementById('defaultTimeoutLengthInHoursInput').disabled = false;">Release</label>
+    <br>
+    Auto Release Time: <input type='text' id='defaultTimeoutLengthInHoursInput' name='defaultTimeoutLengthInHoursInput'  placeholder='Hours' disabled=true><br><br>
+    <br>
+
+    <h3>Record Book Entry</h3><br><br>
+      
+    <select id="category"><br><br>
+      <option>Programming</option>
+      <option>Site Analysis</option>
+      <option>Schematic Design</option>
+      <option>Engineering System Coordination</option>
+      <option>Building Cost Analysis</option>
+      <option>Code Research</option>
+      <option>Design Development</option>
+      <option>Construction Documents</option>
+      <option>Specifications and Material Research</option>
+      <options>Documents Checking and Coordination</options>
+    </select>
+<br><br><br>
+
+    Architect's Proffesional Statement:<br><textarea id='description' name='description' cols='80' rows='15' placeholder="Brief description and link to the file."></textarea><br><br>
+    
+<center> <input id="onCreateCBDBtn" type='submit' value='Create CBD' onclick="useCBDFormInput()"> </center>
+    <div id='outputDiv'></div>
+
+  </body>
+</html>
+
+

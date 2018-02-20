@@ -60,6 +60,7 @@ contract CBDContract {
 // 10 Document Checking and Coordination //
 
     string public recordBook;
+	string public initialStatement;
 
 	//CBD will start with a licensedArchitect but no associateArchitect (associateArchitect==0x0)
 	address public licensedArchitect;
@@ -110,7 +111,7 @@ contract CBDContract {
 	event AutoreleaseTriggered();
 
 
-	function CBDContract(uint _id, uint _serviceDeposit, uint _autoreleaseInterval, string _recordBook, string initialStatement)
+	function CBDContract(uint _id, uint _serviceDeposit, uint _autoreleaseInterval, string _recordBook, string _initialStatement)
 	payable 
 	public
 	{
@@ -128,6 +129,8 @@ contract CBDContract {
 
 		autoreleaseInterval = _autoreleaseInterval;
 
+		initialStatement = _initialStatement;
+
 		if (bytes(initialStatement).length > 0)
 		    LicensedArchitectStatement(initialStatement);
 
@@ -136,9 +139,10 @@ contract CBDContract {
 			amountDeposited += msg.value;
 		}
 
-		//Created(this, _licensedArchitect, _serviceDeposit, _autoreleaseInterval, _recordBook);		
+		Created(this, licensedArchitect, _serviceDeposit, _autoreleaseInterval, _recordBook);		
 	}
 
+	// Allow the factory to reset our index
 	function setId(uint _id)
 	public
 	isFromFactory()
@@ -181,9 +185,9 @@ contract CBDContract {
 	function getFullState()
 	public
 	constant
-	returns(address, string, State, address, uint, uint, uint, uint, uint, uint) 
+	returns(address, string, string, State, address, uint, uint, uint, uint, uint, uint) 
 	{
-		return (licensedArchitect, recordBook, state, associateArchitect, this.balance, serviceDeposit, amountDeposited, amountReleased, autoreleaseInterval, autoreleaseTime);
+		return (licensedArchitect, recordBook, initialStatement, state, associateArchitect, this.balance, serviceDeposit, amountDeposited, amountReleased, autoreleaseInterval, autoreleaseTime);
 	}
 
 	function getBalance()

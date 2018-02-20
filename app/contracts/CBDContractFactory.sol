@@ -35,6 +35,14 @@ contract CBDContractFactory {
         palladioManagement = _management;
     }
 
+    function getPalladioAddress()
+    public
+    constant
+    returns(address)
+    {
+        return palladioManagement;
+    }
+
     // Add a new architect to the system.  This architect
     // will then be able to register new contracts
     function registerArchitect(address architect)
@@ -66,6 +74,8 @@ contract CBDContractFactory {
 		return CBDs.length;
 	}
 
+    // Create a new Collaborative Blockchain Design contract.  
+    // Only a licensed architect is permitted to do this
 	function newCBDContract(uint serviceDeposit, uint autoreleaseInterval, string recordBook, string initialStatement)
 	public
 	payable
