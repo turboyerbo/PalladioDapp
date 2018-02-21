@@ -95,6 +95,18 @@ function toEther(item) {
     return web3.utils.fromWei(Number(item), "ether")
 }
 
+function getCurrentTime(fn) {
+    web3.eth.getBlock("latest",
+        function(err,res){
+            if (err) {
+                console.log("Error calling CBD method: " + err.message);
+            }
+            else{
+                fn(res.timestamp);
+            }
+    })
+}
+
 function parseCBDState(state, address)
 {
     //(licensedArchitect, recordBook, description, state, associateArchitect, this.balance, serviceDeposit, amountDeposited, amountReleased, autoreleaseInterval, autoreleaseTime);

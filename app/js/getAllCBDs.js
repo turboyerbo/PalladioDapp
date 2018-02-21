@@ -8,7 +8,7 @@ function toEther(item) {
   return web3.utils.fromWei(Number(item), "ether")
 }
 function onGetFullState(state, address) {
-  cbdObject = parseCBDState(state)
+  cbdObject = parseCBDState(state, address)
   buildCBDRow(cbdObject, CBDs.length);
   CBDs.push(cbdObject);  
 }
@@ -27,15 +27,15 @@ function buildCBDRow(cbdObject, index){
       break;
   }
   $(`.state:eq(${index})`).text(CBD_STATES[cbdObject.state]);
-  $(`.contractAddress:eq(${index})`).text(cbdObject.contractAddress);
-  $(`.contractAddress:eq(${index})`).attr("href", `interact.html?contractAddress=${cbdObject.contractAddress}`);
+  $(`.contractAddress:eq(${index})`).text(cbdObject.address);
+  $(`.contractAddress:eq(${index})`).attr("href", `interact.html?contractAddress=${cbdObject.address}`);
   $(`.licensedArchitectAddress:eq(${index})`).html(`\n <a href='${window.etherscanURL}${cbdObject.licensedArchitect}'>${cbdObject.licensedArchitect}</a>`);
   // $(`.licensedArchitectAddress:eq(${index})`).text(cbdObject.licensedArchitect);
   if(cbdObject.associateArchitect !== "0x0000000000000000000000000000000000000000"){
     // $(`.associateArchitect:eq(${index})`).text("associateArchitect: \n" + );
     $(`.associateArchitect:eq(${index})`).html(`Associate \n <a href='${window.etherscanURL}${cbdObject.associateArchitect}'>${cbdObject.associateArchitect}</a>`);
   }else{
-    $(`.associateArchitect:eq(${index})`).html(`No Associate! <a href='interact.html?contractAddress=${cbdObject.contractAddress}'> Commit ether to become the associateArchitect.</a>`);
+    $(`.associateArchitect:eq(${index})`).html(`No Associate! <a href='interact.html?contractAddress=${cbdObject.address}'> Commit ether to become the associateArchitect.</a>`);
   }
   $(`.balance:eq(${index})`).text(cbdObject.balance);
   $(`.commitThreshold:eq(${index})`).text(cbdObject.commitThreshold);
@@ -49,7 +49,9 @@ function buildCBDRow(cbdObject, index){
       $(`.autoreleaseTime:eq(${index})`).css("color","red");
     }
     else{
-      $(`.autoreleaseTime:eq(${index})`).text(secondsToDhms(Number(cbdObject.autoreleaseTime - currentTime)));
+      getCurrentTime(function(currentTime) {
+        $(`.autoreleaseTime:eq(${index})`).text(secondsToDhms(Number(cbdObject.autoreleaseTime - currentTime)));
+      })
       $(`.autoreleaseTime:eq(${index})`).css("color","green");
     }
   }
@@ -58,6 +60,21 @@ function buildCBDRow(cbdObject, index){
   }
   $(`.recordBook:eq(${index})`).text(cbdObject.recordBook);
   $(`.initialStatement:eq(${index})`).text(cbdObject.initialStatement);
+}
+
+function loadContract(contractIdx, nContracts)
+{
+  CBDContractFactory.methods.getCBDContract(contractIdx).call()
+  .then(function(address) {
+    CBDContract.options.address = address
+    CBDContract.methods.getFullState().call()
+    .then(function(state) {
+      onGetFullState(state, address);
+      nextContractIdx = contractIdx + 1;
+      if (nextContractIdx < nContracts)
+        loadContract(nextContractIdx, nContracts)
+    }, onError)
+  }, onError);
 }
 
 __loadManagerInstance.execWhenReady(function() {
@@ -72,17 +89,6 @@ __loadManagerInstance.execWhenReady(function() {
   CBDContractFactory.methods.getCBDCount().call()
   .then(function(res){
     var nContracts = Number(res)
-    var contractArray = new Array(nContracts);
-    for(var contractIdx = 0; contractIdx < nContracts; contractIdx++)
-    {
-      CBDContractFactory.methods.getCBDContract(contractIdx).call()
-      .then(function(address) {
-        CBDContract.options.address = address
-        CBDContract.methods.getFullState().call()
-        .then(function(state) {
-          onGetFullState(state, address);
-        }, onError)
-      }, onError);
-    }
+    loadContract(0, nContracts)
   }, onError)
 });
