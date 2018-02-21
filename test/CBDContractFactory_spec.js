@@ -269,15 +269,25 @@ describe("CBDContractFactory", function() {
         cbd.getBalance(function(err, result) {
             web3.eth.getBalance(associate, function(err, result){
                 var initBalance = result;
-                cbd.triggerAutoRelease({from: associate}, function(err, result) {
-                    web3.eth.getTransactionReceipt(result, function(err, result) {
-                        gasUsed = result.gasUsed
-                        cbd.getBalance(function(err, result) {
-                            assert.equal(result, 0);
-                            web3.eth.getBalance(associate, function(err, result){
-                                finalBalance = initBalance.plus(payout).minus(gasUsed)
-                                bn_equals(result, finalBalance);
-                                done()
+                web3.eth.getBalance(palladio, function(err, result){
+                    var initPalladio = result;
+                    cbd.triggerAutoRelease({from: associate}, function(err, result) {
+                        web3.eth.getTransactionReceipt(result, function(err, result) {
+                            gasUsed = result.gasUsed
+                            cbd.getBalance(function(err, result) {
+                                assert.equal(result, 0, "All funds from contract not disbursed");
+                                web3.eth.getBalance(associate, function(err, result){
+                                    palladioFee = payout.times(2).div(100)
+                                    actualPayout = payout.minus(palladioFee)
+                                    finalBalance = initBalance.plus(actualPayout).minus(gasUsed)
+                                    bn_equals(result, finalBalance, "Associate payment not transfered");
+
+                                    // check 2% transfered to wassisname
+                                    web3.eth.getBalance(palladio, function(err, result){
+                                        bn_equals(result, initPalladio.add(palladioFee), "Palladio fee not transfered")
+                                        done()
+                                    })
+                                });
                             });
                         });
                     });

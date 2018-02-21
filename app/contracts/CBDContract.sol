@@ -289,7 +289,16 @@ contract CBDContract {
 	private
 	inState(State.Committed)
 	{
-		associateArchitect.transfer(amount);
+		CBDContractFactory owner = CBDContractFactory(factory);
+		// Palladio charges service fee
+		// Note: we can't use float operators
+		// on uint256
+		uint palladioFee = amount * 2 / 100;
+		owner.getPalladioAddress().transfer(palladioFee);
+		
+		// subtract fee from amount sent
+		uint associateAmount = amount - palladioFee;
+		associateArchitect.transfer(associateAmount);
 
 		amountReleased += amount;
 		FundsReleased(amount);
@@ -297,10 +306,9 @@ contract CBDContract {
 		if (this.balance == 0) {
 			state = State.Closed;
 			Closed();
-		}
 
-		CBDContractFactory owner = CBDContractFactory(factory);
-		owner.removeCBDContract(id);
+			owner.removeCBDContract(id);
+		}
 	}
 
 	////////////////////////////////////////////////////////

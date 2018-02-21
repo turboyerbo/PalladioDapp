@@ -359,6 +359,22 @@
       "0x1bec95e3d8a6ee1a02cf712371e47a6a3b8b7fcefe63d86befb61f5b300cb9ee": {
         "name": "CBDContractFactory",
         "address": "0xce5f686635bbbb0c9e6140d1551c4c20ec761aee"
+      },
+      "0x6827484e461f5b8b0fa34ead751e0b32d04d600e370ef3ccc63584b1f3a37330": {
+        "name": "CBDContractFactory",
+        "address": "0xbfec33a1346ddd08ca3959dcf7f2566a64a2d7cb"
+      },
+      "0xf7b6d5f123ae2e8f927c75c2d85821c612d77f288f13d175e770d4b3413ee60f": {
+        "name": "CBDContractFactory",
+        "address": "0xa8ace98a32e19009ce3f0fa9d09068b98cffb971"
+      },
+      "0x218be858545ac835030adaf5417cd0a339a009aae029cc33ac64ec535cf175e0": {
+        "name": "CBDContractFactory",
+        "address": "0x36b74f7ffa6b730f5a579a2c2051d794c6ec050d"
+      },
+      "0xbc5c03e2379fd888204c0e7f9ca0b5be0528d8e8a8c074bf8eed7850965721b8": {
+        "name": "CBDContractFactory",
+        "address": "0x687fc7f0eaab4d58c96e73804d405ee390d4f8cd"
       }
     },
     "name": "testnet"
