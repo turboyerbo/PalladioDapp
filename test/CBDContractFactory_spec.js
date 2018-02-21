@@ -120,14 +120,15 @@ describe("CBDContractFactory", function() {
         cbd.getFullState(function(err, result) {
             assert.equal(result[0], architect);
             assert.equal(result[1], recordBook);
-            assert.equal(result[2], 0);
+            assert.equal(result[2], instructions);
             assert.equal(result[3], 0);
-            bn_equals(result[4], payout)
-            bn_equals(result[5], serviceDeposit)
-            bn_equals(result[6], payout)
-            assert.equal(result[7].toNumber(), 0); // Amount released
-            assert.equal(result[8].toNumber(), autoReleaseInterval);
-            assert.equal(result[9].toNumber(), 0);
+            assert.equal(result[4], 0);
+            bn_equals(result[5], payout)
+            bn_equals(result[6], serviceDeposit)
+            bn_equals(result[7], payout)
+            assert.equal(result[8].toNumber(), 0); // Amount released
+            assert.equal(result[9].toNumber(), autoReleaseInterval);
+            assert.equal(result[10].toNumber(), 0);
             done();
         });
     });
