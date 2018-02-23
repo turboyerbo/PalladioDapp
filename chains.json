@@ -375,6 +375,10 @@
       "0xbc5c03e2379fd888204c0e7f9ca0b5be0528d8e8a8c074bf8eed7850965721b8": {
         "name": "CBDContractFactory",
         "address": "0x687fc7f0eaab4d58c96e73804d405ee390d4f8cd"
+      },
+      "0xabf554e47c91dc8d09e24f6d71cb391e8b991f8548d389c6eccfc1a5b5e347a2": {
+        "name": "CBDContractFactory",
+        "address": "0x27a555638d19ba8570b2ecb502ac20aafdd48b93"
       }
     },
     "name": "testnet"

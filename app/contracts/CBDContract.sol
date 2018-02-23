@@ -274,7 +274,7 @@ contract CBDContract {
 	}
 
 // Autorelease function will send all funds to Associate Architect
-// Automatically sends 2% (in Wei) to Address; returns false on failure.
+// Automatically sends 2% (in Wei) to Palladio Address; returns false on failure.
 
 	function triggerAutoRelease()
 	public
@@ -295,7 +295,7 @@ contract CBDContract {
 		// on uint256
 		uint palladioFee = amount * 2 / 100;
 		owner.getPalladioAddress().transfer(palladioFee);
-		
+
 		// subtract fee from amount sent
 		uint associateAmount = amount - palladioFee;
 		associateArchitect.transfer(associateAmount);
