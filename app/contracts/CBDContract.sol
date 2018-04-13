@@ -40,11 +40,11 @@ import "./CBDContractFactory.sol";
 
 contract CBDContract {
 
-	// Cache the address of the owning factory
-	// so we can notify on deletion
-	address factory;
-	// Cache the ID of this 
-	uint id;
+    // Cache the address of the owning factory
+    // so we can notify on deletion
+    address factory;
+    // Cache the ID of this 
+    uint id;
 
 //recordBook will never change and must be one of the following:
 //A Design / Construction Documents
@@ -60,312 +60,329 @@ contract CBDContract {
 // 10 Document Checking and Coordination //
 
     string public recordBook;
-	string public initialStatement;
+    string public initialStatement;
+    
+    string public associateMessage;
+    string public architectMessage;
 
-	//CBD will start with a licensedArchitect but no associateArchitect (associateArchitect==0x0)
-	address public licensedArchitect;
-	address public associateArchitect;
-			
-	//Set to true if fundsRecovered is called
-	bool recovered = false;
+    //CBD will start with a licensedArchitect but no associateArchitect (associateArchitect==0x0)
+    address public licensedArchitect;
+    address public associateArchitect;
+            
+    //Set to true if fundsRecovered is called
+    bool recovered = false;
 
-	//Note that these will track, but not influence the CBD logic.
-	uint public amountDeposited;
-	uint public amountReleased;
-	
+    //Note that these will track, but not influence the CBD logic.
+    uint public amountDeposited;
+    uint public amountReleased;
+    
 
-	//Amount of ether a prospective associateArchitect must pay to permanently become the associateArchitect. See commit().
-	uint public serviceDeposit;
+    //Amount of ether a prospective associateArchitect must pay to permanently become the associateArchitect. See commit().
+    uint public serviceDeposit;
 
-	//How long should we wait before allowing the default release to be called?
-	uint public autoreleaseInterval;
+    //How long should we wait before allowing the default release to be called?
+    uint public autoreleaseInterval;
 
-	//Calculated from autoreleaseInterval in commit(),
-	//and recaluclated whenever the licensedArchitect (or possibly the associateArchitect) calls delayhasDefaultRelease()
-	//After this time, auto-release can be called by the associateArchitect.
-	uint public autoreleaseTime;
+    //Calculated from autoreleaseInterval in commit(),
+    //and recaluclated whenever the licensedArchitect (or possibly the associateArchitect) calls delayhasDefaultRelease()
+    //After this time, auto-release can be called by the associateArchitect.
+    uint public autoreleaseTime;
 
-	//Most action happens in the Committed state.
-	enum State {
-		Open,
-		Committed,
-		Closed
-	}
-	State public state;
-	//Note that a CBD cannot go from Committed back to Open, but it can go from Closed back to Committed
-	//(this would retain the committed associateArchitect). Search for Closed and Unclosed events to see how this works.
-
-
-
-	event Created(address indexed contractAddress, address _licensedArchitect, uint _serviceDeposit, uint _autoreleaseInterval, string _recordBook);
-	event FundsAdded(address from, uint amount); //The licensedArchitect has added funds to the CBD.
-	event LicensedArchitectStatement(string statement);
-	event AssociateArchitectStatement(string statement);
-	event FundsRecovered();
-	event Committed(address _associateArchitect);
-	event RecordBook(string statement);
-	event FundsReleased(uint amount);
-	event Closed();
-	event Unclosed();
-	event AutoreleaseDelayed();
-	event AutoreleaseTriggered();
+    //Most action happens in the Committed state.
+    enum State {
+        Open,
+        Committed,
+        Closed
+    }
+    State public state;
+    //Note that a CBD cannot go from Committed back to Open, but it can go from Closed back to Committed
+    //(this would retain the committed associateArchitect). Search for Closed and Unclosed events to see how this works.
 
 
-	function CBDContract(uint _id, uint _serviceDeposit, uint _autoreleaseInterval, string _recordBook, string _initialStatement)
-	payable 
-	public
-	{
-		// Cache identifying variables linking us back to factory
-		id = _id;
-		factory = msg.sender;
 
-		licensedArchitect = tx.origin;
-		
-		recordBook = _recordBook;
+    event Created(address indexed contractAddress, address _licensedArchitect, uint _serviceDeposit, uint _autoreleaseInterval, string _recordBook);
+    event FundsAdded(address from, uint amount); //The licensedArchitect has added funds to the CBD.
+    event LicensedArchitectStatement(string statement);
+    event AssociateArchitectStatement(string statement);
+    event FundsRecovered();
+    event Committed(address _associateArchitect);
+    event RecordBook(string statement);
+    event FundsReleased(uint amount);
+    event Closed();
+    event Unclosed();
+    event AutoreleaseDelayed();
+    event AutoreleaseTriggered();
 
-		state = State.Open;
 
-		serviceDeposit = _serviceDeposit;
+    function CBDContract(uint _id, uint _serviceDeposit, uint _autoreleaseInterval, string _recordBook, string _initialStatement)
+    payable 
+    public
+    {
+        // Cache identifying variables linking us back to factory
+        id = _id;
+        factory = msg.sender;
 
-		autoreleaseInterval = _autoreleaseInterval;
+        licensedArchitect = tx.origin;
+        
+        recordBook = _recordBook;
 
-		initialStatement = _initialStatement;
+        state = State.Open;
 
-		if (bytes(initialStatement).length > 0)
-		    LicensedArchitectStatement(initialStatement);
+        serviceDeposit = _serviceDeposit;
 
-		if (msg.value > 0) {
-		    FundsAdded(tx.origin, msg.value);
-			amountDeposited += msg.value;
-		}
+        autoreleaseInterval = _autoreleaseInterval;
 
-		Created(this, licensedArchitect, _serviceDeposit, _autoreleaseInterval, _recordBook);		
-	}
+        initialStatement = _initialStatement;
 
-	// Allow the factory to reset our index
-	function setId(uint _id)
-	public
-	isFromFactory()
-	{
-		id = _id;
-	}
+        if (bytes(initialStatement).length > 0)
+            LicensedArchitectStatement(initialStatement);
 
-	function getId()
-	public
-	constant
-	returns(uint)
-	{
-		return id;
-	}
+        if (msg.value > 0) {
+            FundsAdded(tx.origin, msg.value);
+            amountDeposited += msg.value;
+        }
 
-	function getArchitect()
-	public
-	constant
-	returns(address)
-	{
-		return licensedArchitect;
-	}
+        Created(this, licensedArchitect, _serviceDeposit, _autoreleaseInterval, _recordBook);		
+    }
 
-	function getAssociate()
-	public
-	constant
-	returns(address)
-	{
-		return associateArchitect;
-	}
+    // Allow the factory to reset our index
+    function setId(uint _id)
+    public
+    isFromFactory()
+    {
+        id = _id;
+    }
 
-	function getState()
-	public
-	constant
-	returns(State)
-	{
-		return state;
-	}
+    function getId()
+    public
+    constant
+    returns(uint)
+    {
+        return id;
+    }
 
-	function getFullState()
-	public
-	constant
-	returns(address, string, string, State, address, uint, uint, uint, uint, uint, uint) 
-	{
-		return (licensedArchitect, recordBook, initialStatement, state, associateArchitect, this.balance, serviceDeposit, amountDeposited, amountReleased, autoreleaseInterval, autoreleaseTime);
-	}
+    function getArchitect()
+    public
+    constant
+    returns(address)
+    {
+        return licensedArchitect;
+    }
 
-	function getBalance()
-	public
-	constant
-	returns(uint)
-	{
-		return this.balance;
-	}
+    function getAssociate()
+    public
+    constant
+    returns(address)
+    {
+        return associateArchitect;
+    }
 
-	function addFunds()
-	public
-	payable
-	{
-		require(msg.value > 0);
+    function getState()
+    public
+    constant
+    returns(State)
+    {
+        return state;
+    }
 
-		FundsAdded(msg.sender, msg.value);
-		amountDeposited += msg.value;
-		if (state == State.Closed) {
-			state = State.Committed;
-			Unclosed();
-		}
-	}
+    function getFullState()
+    public
+    constant
+    returns(address, string, string, State, address, uint, uint, uint, uint, uint, uint) 
+    {
+        return (licensedArchitect, recordBook, initialStatement, state, associateArchitect, this.balance, serviceDeposit, amountDeposited, amountReleased, autoreleaseInterval, autoreleaseTime);
+    }
 
-	function recoverFunds()
-	public
-	onlylicensedArchitect()
-	inState(State.Open) 
-	{
-	    recovered = true;
-		
-		CBDContractFactory owner = CBDContractFactory(factory);
-		owner.removeCBDContract(id);
+    function setAssociateMessage(string message)
+    public
+    onlyassociateArchitect()
+    {
+        associateMessage = message;
+    }
 
-		FundsRecovered();
-		selfdestruct(licensedArchitect);
-	}
+    function setArchitectMessage(string message)
+    public
+    onlylicensedArchitect()
+    {
+        architectMessage = message;
+    }
 
-	function commit()
-	public
-	inState(State.Open)
-	coversDeposit()
-	payable
-	{
-		if (msg.value > 0) {
-			FundsAdded(msg.sender, msg.value);
-			amountDeposited += msg.value;
-		}
+    function getBalance()
+    public
+    constant
+    returns(uint)
+    {
+        return this.balance;
+    }
 
-		associateArchitect = msg.sender;
-		state = State.Committed;
-		Committed(associateArchitect);
+    function addFunds()
+    public
+    payable
+    {
+        require(msg.value > 0);
 
-		autoreleaseTime = now + autoreleaseInterval;
-	}
+        FundsAdded(msg.sender, msg.value);
+        amountDeposited += msg.value;
+        if (state == State.Closed) {
+            state = State.Committed;
+            Unclosed();
+        }
+    }
 
-	//////////////////////////////////////////////////////
+    function recoverFunds()
+    public
+    onlylicensedArchitect()
+    inState(State.Open) 
+    {
+        recovered = true;
+        
+        CBDContractFactory owner = CBDContractFactory(factory);
+        owner.removeCBDContract(id);
 
-	function getAutoReleaseTime()
-	public
-	constant
-	inState(State.Committed)
-	returns(uint)
-	{
-		return autoreleaseTime;
-	}
+        FundsRecovered();
+        selfdestruct(licensedArchitect);
+    }
 
-	function release(uint amount)
-	public
-	inState(State.Committed)
-	onlylicensedArchitect() 
-	{
-		internalRelease(amount);
-	}
+    function commit()
+    public
+    inState(State.Open)
+    coversDeposit()
+    payable
+    {
+        if (msg.value > 0) {
+            FundsAdded(msg.sender, msg.value);
+            amountDeposited += msg.value;
+        }
 
-	function delayAutorelease()
-	public
-	inState(State.Committed) 
-	onlylicensedArchitect()
-	isBeforeAutoRelease()
-	{
-		autoreleaseTime = now + autoreleaseInterval;
-		AutoreleaseDelayed();
-	}
+        associateArchitect = msg.sender;
+        state = State.Committed;
+        Committed(associateArchitect);
+
+        autoreleaseTime = now + autoreleaseInterval;
+    }
+
+    //////////////////////////////////////////////////////
+
+    function getAutoReleaseTime()
+    public
+    constant
+    inState(State.Committed)
+    returns(uint)
+    {
+        return autoreleaseTime;
+    }
+
+    function release(uint amount)
+    public
+    inState(State.Committed)
+    onlylicensedArchitect() 
+    {
+        internalRelease(amount);
+    }
+
+    function delayAutorelease()
+    public
+    inState(State.Committed) 
+    onlylicensedArchitect()
+    isBeforeAutoRelease()
+    {
+        autoreleaseTime = now + autoreleaseInterval;
+        AutoreleaseDelayed();
+    }
 
 // Autorelease function will send all funds to Associate Architect
 // Automatically sends 2% (in Wei) to Palladio Address; returns false on failure.
 
-	function triggerAutoRelease()
-	public
-	inState(State.Committed)
-	isPastAutoRelease()
-	{
+    function triggerAutoRelease()
+    public
+    inState(State.Committed)
+    isPastAutoRelease()
+    {
         AutoreleaseTriggered();
-		internalRelease(this.balance);
-	}
+        internalRelease(this.balance);
+    }
 
-	function internalRelease(uint amount)
-	private
-	inState(State.Committed)
-	{
-		CBDContractFactory owner = CBDContractFactory(factory);
-		// Palladio charges service fee
-		// Note: we can't use float operators
-		// on uint256
-		uint palladioFee = amount * 2 / 100;
-		owner.getPalladioAddress().transfer(palladioFee);
+    function internalRelease(uint amount)
+    private
+    inState(State.Committed)
+    {
+        CBDContractFactory owner = CBDContractFactory(factory);
+        // Palladio charges service fee
+        // Note: we can't use float operators
+        // on uint256
+        uint palladioFee = amount * 2 / 100;
+        owner.getPalladioAddress().transfer(palladioFee);
 
-		// subtract fee from amount sent
-		uint associateAmount = amount - palladioFee;
-		associateArchitect.transfer(associateAmount);
+        // subtract fee from amount sent
+        uint associateAmount = amount - palladioFee;
+        associateArchitect.transfer(associateAmount);
 
-		amountReleased += amount;
-		FundsReleased(amount);
+        amountReleased += amount;
+        FundsReleased(amount);
 
-		if (this.balance == 0) {
-			state = State.Closed;
-			Closed();
+        if (this.balance == 0) {
+            state = State.Closed;
+            Closed();
 
-			owner.removeCBDContract(id);
-		}
-	}
+            owner.removeCBDContract(id);
+        }
+    }
 
-	////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////
 
-	// Chat/logging functions
-	function loglicensedArchitectStatement(string statement)
-	public
-	onlylicensedArchitect() 
-	{
-	    LicensedArchitectStatement(statement);
-	}
+    // Chat/logging functions
+    function loglicensedArchitectStatement(string statement)
+    public
+    onlylicensedArchitect() 
+    {
+        LicensedArchitectStatement(statement);
+    }
 
-	function logassociateArchitectStatement(string statement)
-	public
-	onlyassociateArchitect() 
-	{
-		AssociateArchitectStatement(statement);
-	}
+    function logassociateArchitectStatement(string statement)
+    public
+    onlyassociateArchitect() 
+    {
+        AssociateArchitectStatement(statement);
+    }
 
-	////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////
 
-	modifier isFromFactory() {
-		require(msg.sender == factory);
-		_;
-	}
+    modifier isFromFactory() {
+        require(msg.sender == factory);
+        _;
+    }
 
-	modifier inState(State s) {
-		require(s == state);
-		_;
-	}
+    modifier inState(State s) {
+        require(s == state);
+        _;
+    }
 
-	modifier onlylicensedArchitect() {
-		require(msg.sender == licensedArchitect);
-		_;
-	}
+    modifier onlylicensedArchitect() {
+        require(msg.sender == licensedArchitect);
+        _;
+    }
 
-	modifier onlyassociateArchitect() {
-		require(msg.sender == associateArchitect);
-		_;
-	}
-	modifier onlylicensedArchitectOrassociateArchitect() {
-		require((msg.sender == licensedArchitect) || (msg.sender == associateArchitect));
-		_;
-	}
+    modifier onlyassociateArchitect() {
+        require(msg.sender == associateArchitect);
+        _;
+    }
+    modifier onlylicensedArchitectOrassociateArchitect() {
+        require((msg.sender == licensedArchitect) || (msg.sender == associateArchitect));
+        _;
+    }
 
-	modifier coversDeposit() {
-		require(msg.value == serviceDeposit);
-		_;
-	}
+    modifier coversDeposit() {
+        require(msg.value == serviceDeposit);
+        _;
+    }
 
-	modifier isPastAutoRelease() {
-		require(now >= autoreleaseTime);
-		_;
-	}
+    modifier isPastAutoRelease() {
+        require(now >= autoreleaseTime);
+        _;
+    }
 
-	modifier isBeforeAutoRelease() {
-		require(now < autoreleaseTime);
-		_;
-	}
+    modifier isBeforeAutoRelease() {
+        require(now < autoreleaseTime);
+        _;
+    }
 }

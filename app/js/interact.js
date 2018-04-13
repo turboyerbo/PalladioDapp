@@ -51,7 +51,7 @@ __loadManagerInstance.execWhenReady(function() {
   address = params["contractAddress"]
   CBDContract.options.address = address
 
-    //getEventsAndParticipants('logs','getLogs','address=' + address);
+  getEventsAndParticipants('logs','getLogs','address=' + address);
 
   window.checkUserAddressesInterval = setInterval(checkForUserAddresses, 1000);
   window.getFullStateInterval = setInterval(function(){
@@ -190,14 +190,14 @@ function onUserAddressesVisible(account) {
 function recipientStringEditMode(flag) {
 	if (flag) {
 		$('#recipientStringUpdateStartButton').hide();
-		$('#recipientStringUpdateTextarea').show();
+		$('#associateMessageUpdateTextarea').show();
 		$('#recipientStringUpdateCommitButton').show();
 		$('#recipientStringUpdateCancelButton').show();
 		$('#CBDRecipientStringOutput').hide();
 	}
 	else {
 		$('#recipientStringUpdateStartButton').show();
-		$('#recipientStringUpdateTextarea').hide();
+		$('#associateMessageUpdateTextarea').hide();
 		$('#recipientStringUpdateCommitButton').hide();
 		$('#recipientStringUpdateCancelButton').hide();
 		$('#CBDRecipientStringOutput').show();
@@ -206,13 +206,13 @@ function recipientStringEditMode(flag) {
 function startRecipientStringUpdate() {
 	recipientStringEditMode(true);
 
-	$('#recipientStringUpdateTextarea').val(CBD.recipientString);
+	$('#associateMessageUpdateTextarea').val(CBD.recipientString);
 }
 function cancelRecipientStringUpdate() {
 	recipientStringEditMode(false);
 }
-function commitRecipientStringUpdate() {
-	callUpdateRecipientString($('#recipientStringUpdateTextarea').val());
+function commitAssociateMessageUpdate() {
+	callLogAssociateMessage($('#associateMessageUpdateTextarea').val());
 	recipientStringEditMode(false);
 }
 
@@ -259,7 +259,8 @@ function handleRecoverFundsResult(err, res) {
 	if (err) console.log(err.message);
 }
 function callRecoverFunds() {
-	CBDContract.methods.recoverFunds().call().then(handleRecoverFundsResult);
+  CBDContract.methods.recoverFunds().call()
+  .then(handleRecoverFundsResult);
 }
 function handleReleaseResult(err, res) {
     if (err) console.log(err.message);
@@ -304,64 +305,69 @@ function callDefaultAction(){
 }
 function delayDefaultRelease(){
   // var delayDefaultActionInHours = Number($('input[type=text]', '#delayDefaultActionForm').val());
-  CBDContract.methods.delayAutorelease().call().then(logCallResult);
+  CBDContract.methods.delayAutorelease().call()
+  .then(logCallResult);
 }
-function handleUpdateRecipientStringResult(err, res) {
+function handleUpdateAssociateMessageResult(err, res) {
     if (err) console.log(err.message);
 }
-function callUpdateRecipientString(newString) {
-    CBDContract.methods.setRecipientString(newString, handleUpdateRecipientStringResult);
+
+function callLogAssociateMessage(message) {
+    CBDContract.methods.logassociateArchitectStatement(message).send({"from":web3.eth.defaultAccount})
+    .then(handleUpdateAssociateMessageResult);
 }
 function handleUpdatelicensedArchitectStringResult(err, res) {
     if (err) console.log(err.message);
 }
+
 function callUpdatelicensedArchitectString(newString) {
     CBDContract.methods.setlicensedArchitectString(newString, handleUpdatelicensedArchitectStringResult);
 }
 function callCancel() {
-    CBDContract.methods.recoverFunds().call().then(logCallResult);
+    CBDContract.methods.recoverFunds().call()
+    .then(logCallResult);
 }
 
 //////////////////////////////////Events Part of the interact page////////////////////////////////////////////////
-function buildEventsPage(logArray, licensedArchitect, recipient){
-  var who;
-  var logArrayCounter = 0;
-  var eventArray = [];
-  logArray.forEach(function(log){
-    var eventObject = {};
-    (function(log){
-      web3.eth.getTransaction(log.transactionHash, function(err,res){
-        if(err){
-          console.log("Error calling CBD method: " + err.message);
-        }
-        else{
-          var topic = log.topics[0];
-          var event = decodeTopic(topic, CBD_ABI);
-          if(licensedArchitect === recipient && false){
-            who = "contract";
-          }
-          else if(res.from === licensedArchitect){
-            who = "licensedArchitect";
-          }
-          else if(res.from === recipient){
-            who = "recipient";
-          }
-          eventObject.who = who;
-          eventObject.event = event;
-          eventObject.timeStamp = log.timeStamp;
-          eventObject.arguments = returnEventArguments(log.data, event.inputs)
-          eventArray.push(eventObject);
+// function buildEventsPage(logArray, licensedArchitect, recipient){
+//   // var who;
+//   // var logArrayCounter = 0;
+//   // var eventArray = [];
+//   // logArray.forEach(function(log){
+//   //   var eventObject = {};
+//   //   (function(log){
+//   //     web3.eth.getTransaction(log.transactionHash, function(err,res){
+//   //       if(err){
+//   //         console.log("Error calling CBD method: " + err.message);
+//   //       }
+//   //       else{
+//   //         var topic = log.topics[0];
+//   //         var event = decodeTopic(topic);
+//   //         if(licensedArchitect === recipient && false){
+//   //           who = "contract";
+//   //         }
+//   //         else if(res.from === licensedArchitect){
+//   //           who = "licensedArchitect";
+//   //         }
+//   //         else if(res.from === recipient){
+//   //           who = "recipient";
+//   //         }
+//   //         eventObject.who = who;
+//   //         eventObject.event = event;
+//   //         eventObject.timeStamp = log.timeStamp;
+//   //         eventObject.arguments = returnEventArguments(log.data, event.inputs)
+//   //         eventArray.push(eventObject);
 
-          logArrayCounter += 1;
-          if(logArrayCounter === logArray.length){
-            eventArray = sortOnTimestamp(eventArray);
-            insertAllInChat(eventArray);
-          }
-        }
-      });
-    })(log);
-  });
-}
+//   //         logArrayCounter += 1;
+//   //         if(logArrayCounter === logArray.length){
+//   //           eventArray = sortOnTimestamp(eventArray);
+//   //           insertAllInChat(eventArray);
+//   //         }
+//   //       }
+//   //     });
+//   //   })(log);
+//   // });
+// }
 
 function returnEventArguments(rawArguments, eventInfo){
   var rawArgumentArray = rawArguments.substring(2).match(/.{1,64}/g);
@@ -386,26 +392,40 @@ function returnEventArguments(rawArguments, eventInfo){
   }
 }
 
-// function insertAllInChat(eventArray){
-//   eventArray.forEach(function(eventObject){
-//     insertChat(eventObject.who, eventObject.event.name, new Date(parseInt(eventObject.timeStamp, 16) * 1000).toLocaleString());
-//   });
-// }
+function insertAllInChat(eventArray){
+  eventArray.forEach(function(eventObject){
+    who = "Contract"
+    text = eventObject.event
+    if (eventObject.event == "LicensedArchitectStatement") {
+      who = "Architect"
+      text = eventObject.returnValues[0]
+    }
+    else if (eventObject.event == "AssociateArchitectStatement") {
+      who = "Associate"
+      text = eventObject.returnValues[0]
+    }
 
-// function getEventsAndParticipants(moduleParam, actionParam, additionalKeyValue){
-//   CBDContract.methods.getFullState(function(err, res){
-//     if (err) {
-//       console.log("Error calling CBD method: " + err.message);
-//     }
-//     else{
-//       var licensedArchitect = res[1].toString();
-//       var recipient = res[3].toString();
-//       callEtherscanApi(moduleParam, actionParam, additionalKeyValue, function(resultJSON){
-//         buildEventsPage(resultJSON.result, licensedArchitect, recipient)
-//       });
-//     }
-//   });
-// }
+    insertChat(who, text, eventObject.blockNumber);
+  });
+}
+
+function getEventsAndParticipants(moduleParam, actionParam, additionalKeyValue){
+  CBDContract.getPastEvents("allEvents", {fromBlock: 0, toBlock:"latest"})
+  .then(function(events) {
+    //events = sortOnTimestamp(events);
+    insertAllInChat(events);
+  })
+  // CBDContract.methods.getFullState().call()
+  // .then(function(res){
+  //   var licensedArchitect = res[0].toString();
+  //   var associate = res[4].toString();
+  //   callEtherscanApi(moduleParam, actionParam, additionalKeyValue, function(resultJSON){
+  //     buildEventsPage(resultJSON.result, licensedArchitect, associate)
+  //   });
+  // }, function(err) {
+  //   console.log("Error calling CBD method: " + err.message);
+  // });
+}
 
 // function callEtherscanApi(moduleParam, actionParam, additionalKeyValue, callback){
 //   var request = new XMLHttpRequest();
@@ -422,48 +442,70 @@ function returnEventArguments(rawArguments, eventInfo){
 //   request.send();
 // }
 
-// function decodeTopic(topic, abi){
+// function decodeTopic(topic){
+
+//   abi = CBDContract.options.jsonInterface;
 //   for (var methodCounter = 0; methodCounter < abi.length; methodCounter++) {
 //     var item = abi[methodCounter];
 //     if (item.type != "event") continue;
-//     var signature = item.name + "(" + item.inputs.map(function(input) {return input.type;}).join(",") + ")";
-//     var hash = web3.sha3(signature);
+//     var hash = web3.eth.abi.encodeEventSignature(item)
 //     if (hash == topic) {
 //       return item;
 //     }
 //   }
 // }
 
-// function insertChat(who, text, date){
-//   var control = "";
-//   if (who === "licensedArchitect"){
-//     control =
-//     '<li class="list-group-item list-group-item-success" style="width:100%">' +
-//       '<div class="row">' +
-//         '<div class="col-md-4">' +
-//           '<span>' + text + '</span>' +
-//           '<p><small>' + date + '</small></p>' +
-//         '</div>' +
-//         '<div class="col-md-4"></div>' +
-//         '<div class="col-md-4"></div>' +
-//       '</div>' +
-//     '</li>';
-//   }
-//   else if(who === "recipient"){
-//     control =
-//       '<li class="list-group-item list-group-item-info" style="width:100%;">' +
-//         '<div class="row">' +
-//           '<div class="col-md-4"></div>' +
-//           '<div class="col-md-4"></div>' +
-//           '<div class="col-md-4">' +
-//             '<span>' + text + '</span>' +
-//             '<p><small>' + date + '</small></p>' +
-//           '</div>' +
-//         '</div>' +
-//       '</li>';
-//   }
-//   $("ul").append(control);
-// }
+function insertChat(who, text, blockNumber){
+  var control = "";
+  if (who === "Architect"){
+    control =
+    '<li class="list-group-item list-group-item-success" style="width:100%">' +
+      '<div class="row">' +
+        '<div class="col-md-4">' +
+          '<span>' + who + ': </span>' +
+          '<span>' + text + '</span>' +
+          '<p id="dt_' + blockNumber + '"><small>&nbsp;</small></p>' +
+        '</div>' +
+        '<div class="col-md-4"></div>' +
+        '<div class="col-md-4"></div>' +
+      '</div>' +
+    '</li>';
+  }
+  else if(who === "Associate"){
+    control =
+      '<li class="list-group-item list-group-item-info" style="width:100%;">' +
+        '<div class="row">' +
+          '<div class="col-md-4"></div>' +
+          '<div class="col-md-4"></div>' +
+          '<div class="col-md-4">' +
+            '<span>' + who + ': </span>' +
+            '<span>' + text + '</span>' +
+            '<p id="dt_' + blockNumber + '"><small>&nbsp;</small></p>' +
+          '</div>' +
+        '</div>' +
+      '</li>';
+  }
+  else {
+    control =
+    '<li class="list-group-item list-group-item-info" style="width:100%;">' +
+      '<div class="row">' +
+        '<div class="col-md-4"></div>' +
+        '<div class="col-md-4"></div>' +
+        '<div class="col-md-4">' +
+          '<span>' + text + '</span>' +
+          '<p id="dt_' + blockNumber + '"><small>&nbsp;</small></p>' +
+        '</div>' +
+      '</div>' +
+    '</li>';
+  }
+  $("ul").append(control);
+
+  web3.eth.getBlock(blockNumber)
+  .then(function(res) { 
+    dt = new Date(res.timestamp * 1000).toLocaleString()
+    $("#dt_" + blockNumber).text(dt)
+  })
+}
 
 
 // function sortOnTimestamp(eventArray){

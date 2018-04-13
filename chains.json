@@ -379,8 +379,46 @@
       "0xabf554e47c91dc8d09e24f6d71cb391e8b991f8548d389c6eccfc1a5b5e347a2": {
         "name": "CBDContractFactory",
         "address": "0x27a555638d19ba8570b2ecb502ac20aafdd48b93"
+      },
+      "0xcf2ad97ed3d7e176abf5810f9ecf4ead235531ab448e0bd1802746e36793ea44": {
+        "name": "CBDContractFactory",
+        "address": "0x4909b0bb3b6741f81aea29d8cc9d0d9e49127218"
+      },
+      "0xa9609fd515aa930b3f7fb4142fd8f61006c49db9818278091ca4a61c6ed45ab4": {
+        "name": "CBDContractFactory",
+        "address": "0x5107feeca9745aaf58f231766249d59ec99c06aa"
+      },
+      "0x839c144863d96ccbad265862bfad7e2322089b96c1427bce2a9aed811ac7e2ac": {
+        "name": "CBDContractFactory",
+        "address": "0x0b6622ed2667287de3730d28d21439bd0c68eaec"
+      },
+      "0x3d442ec8ec5f9a1fb7c247bb8490d103af9a407fcaa7c8bd16662ef49ff573f9": {
+        "name": "CBDContractFactory",
+        "address": "0x9983b05c8b638125db855f2a268e17f4d2583f3e"
+      },
+      "0xf376ee56ae5fd924f6f95f35ca07326859e026f0c783226939723a6317f08607": {
+        "name": "CBDContractFactory",
+        "address": "0x37b03149a2d32cc54add16f657467aa3b38f59c9"
       }
     },
     "name": "testnet"
+  },
+  "0x41381fc276e1eb61131b4ba48c841111d1208615cd7cce374c104adf324fbc1a": {
+    "contracts": {
+      "0xabf554e47c91dc8d09e24f6d71cb391e8b991f8548d389c6eccfc1a5b5e347a2": {
+        "name": "CBDContractFactory",
+        "address": "0x2d7855b390bfa4d8b28259a69debd7867fbbdb5a"
+      }
+    },
+    "name": "testnet"
+  },
+  "0xce6619ea91798a44668d458ab0367a1649a24cc25a0342c4e0e6627acdc41c5a": {
+    "contracts": {
+      "0xabf554e47c91dc8d09e24f6d71cb391e8b991f8548d389c6eccfc1a5b5e347a2": {
+        "name": "CBDContractFactory",
+        "address": "0xdd0b539f061b1f098b5101972e602674b7e156c7"
+      }
+    },
+    "name": "development"
   }
 }
