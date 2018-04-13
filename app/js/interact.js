@@ -52,6 +52,7 @@ __loadManagerInstance.execWhenReady(function() {
   CBDContract.options.address = address
 
   getEventsAndParticipants('logs','getLogs','address=' + address);
+  registerForNewEvents();
 
   window.checkUserAddressesInterval = setInterval(checkForUserAddresses, 1000);
   window.getFullStateInterval = setInterval(function(){
@@ -329,67 +330,20 @@ function callCancel() {
 }
 
 //////////////////////////////////Events Part of the interact page////////////////////////////////////////////////
-// function buildEventsPage(logArray, licensedArchitect, recipient){
-//   // var who;
-//   // var logArrayCounter = 0;
-//   // var eventArray = [];
-//   // logArray.forEach(function(log){
-//   //   var eventObject = {};
-//   //   (function(log){
-//   //     web3.eth.getTransaction(log.transactionHash, function(err,res){
-//   //       if(err){
-//   //         console.log("Error calling CBD method: " + err.message);
-//   //       }
-//   //       else{
-//   //         var topic = log.topics[0];
-//   //         var event = decodeTopic(topic);
-//   //         if(licensedArchitect === recipient && false){
-//   //           who = "contract";
-//   //         }
-//   //         else if(res.from === licensedArchitect){
-//   //           who = "licensedArchitect";
-//   //         }
-//   //         else if(res.from === recipient){
-//   //           who = "recipient";
-//   //         }
-//   //         eventObject.who = who;
-//   //         eventObject.event = event;
-//   //         eventObject.timeStamp = log.timeStamp;
-//   //         eventObject.arguments = returnEventArguments(log.data, event.inputs)
-//   //         eventArray.push(eventObject);
 
-//   //         logArrayCounter += 1;
-//   //         if(logArrayCounter === logArray.length){
-//   //           eventArray = sortOnTimestamp(eventArray);
-//   //           insertAllInChat(eventArray);
-//   //         }
-//   //       }
-//   //     });
-//   //   })(log);
-//   // });
-// }
+function registerForNewEvents()
+{
+  // NOTE: Metamask doesn't support live events yet, see https://github.com/MetaMask/metamask-extension/issues/2601
 
-function returnEventArguments(rawArguments, eventInfo){
-  var rawArgumentArray = rawArguments.substring(2).match(/.{1,64}/g);
-  var argumentString;
-  for(var counter = 0; counter < rawArgumentArray.length; counter++){
-    var argumentEncoded = rawArgumentArray[counter];
-    switch(eventInfo[counter]){
-      case "address":
-        argumentString += "0x" + argumentEncoded;
-        break;
-      case "uint256":
-        argumentString += parseInt(argumentEncoded, 16);
-        break;
-      case "string":
-        argumentString += web3.toAscii(argumentString);
-        break;
-      case "bool":
-        argumentString += argumentString === "1";
-        break;
-      default:
-    }
-  }
+  // web3.eth.getBlockNumber(function(err, blockNumber) {
+  //   CBDContract.events.LicensedArchitectStatement({fromBlock:blockNumber}, function(err, event) {
+  //     insertChat("Architect", event.returnValues[0], event.blockNumber);
+  //   })
+
+  //   CBDContract.events.AssociateArchitectStatement({fromBlock:blockNumber}, function(err, event) {
+  //     insertChat("Associate", event.returnValues[0], event.blockNumber);
+  //   })
+  // })
 }
 
 function insertAllInChat(eventArray){
@@ -412,48 +366,9 @@ function insertAllInChat(eventArray){
 function getEventsAndParticipants(moduleParam, actionParam, additionalKeyValue){
   CBDContract.getPastEvents("allEvents", {fromBlock: 0, toBlock:"latest"})
   .then(function(events) {
-    //events = sortOnTimestamp(events);
     insertAllInChat(events);
   })
-  // CBDContract.methods.getFullState().call()
-  // .then(function(res){
-  //   var licensedArchitect = res[0].toString();
-  //   var associate = res[4].toString();
-  //   callEtherscanApi(moduleParam, actionParam, additionalKeyValue, function(resultJSON){
-  //     buildEventsPage(resultJSON.result, licensedArchitect, associate)
-  //   });
-  // }, function(err) {
-  //   console.log("Error calling CBD method: " + err.message);
-  // });
 }
-
-// function callEtherscanApi(moduleParam, actionParam, additionalKeyValue, callback){
-//   var request = new XMLHttpRequest();
-//   request.onreadystatechange = function(){
-//     if(this.readyState == 4){
-//       if(this.status == 200){
-//         var resultParsed = JSON.parse(this.responseText);
-//         console.log(resultParsed);
-//         callback(resultParsed);
-//       }
-//     }
-//   }
-//   request.open('GET', `https://ropsten.etherscan.io/api?module=${moduleParam}&action=${actionParam}&${additionalKeyValue}&fromBlock=0&toBlock=latest`, true);
-//   request.send();
-// }
-
-// function decodeTopic(topic){
-
-//   abi = CBDContract.options.jsonInterface;
-//   for (var methodCounter = 0; methodCounter < abi.length; methodCounter++) {
-//     var item = abi[methodCounter];
-//     if (item.type != "event") continue;
-//     var hash = web3.eth.abi.encodeEventSignature(item)
-//     if (hash == topic) {
-//       return item;
-//     }
-//   }
-// }
 
 function insertChat(who, text, blockNumber){
   var control = "";
@@ -506,13 +421,3 @@ function insertChat(who, text, blockNumber){
     $("#dt_" + blockNumber).text(dt)
   })
 }
-
-
-// function sortOnTimestamp(eventArray){
-//   eventArray.sort(function(current, next){
-//     if(current.timeStamp < next.timeStamp) return -1;
-//     if(current.timeStamp > next.timeStamp) return 1;
-//     return 0;
-//   });
-//   return eventArray;
-// }

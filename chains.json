@@ -420,5 +420,14 @@
       }
     },
     "name": "development"
+  },
+  "0x57744ca6608df6e7c886977ace52c65b3d949404a652fe4c3702bce38da04b65": {
+    "contracts": {
+      "0xf376ee56ae5fd924f6f95f35ca07326859e026f0c783226939723a6317f08607": {
+        "name": "CBDContractFactory",
+        "address": "0x649d56940e505df2ab285d22ece24a72086a95e3"
+      }
+    },
+    "name": "development"
   }
 }
