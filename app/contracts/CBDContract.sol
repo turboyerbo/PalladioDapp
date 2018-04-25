@@ -1,6 +1,7 @@
 pragma solidity ^0.4.17;
 
 import "./CBDContractFactory.sol";
+import "./SampleToken.sol";
 
 //*Collaborative Blockchain Design (CBD) begins when the Licensed Architect (Ontario Association of Architects)is: 
 // (1) digitally-verified using their unique Public Key assigned by the Palladio; 
@@ -61,9 +62,6 @@ contract CBDContract {
 
     string public recordBook;
     string public initialStatement;
-    
-    string public associateMessage;
-    string public architectMessage;
 
     //CBD will start with a licensedArchitect but no associateArchitect (associateArchitect==0x0)
     address public licensedArchitect;
@@ -75,10 +73,6 @@ contract CBDContract {
     //Note that these will track, but not influence the CBD logic.
     uint public amountDeposited;
     uint public amountReleased;
-    
-
-    //Amount of ether a prospective associateArchitect must pay to permanently become the associateArchitect. See commit().
-    uint public serviceDeposit;
 
     //How long should we wait before allowing the default release to be called?
     uint public autoreleaseInterval;
@@ -98,9 +92,7 @@ contract CBDContract {
     //Note that a CBD cannot go from Committed back to Open, but it can go from Closed back to Committed
     //(this would retain the committed associateArchitect). Search for Closed and Unclosed events to see how this works.
 
-
-
-    event Created(address indexed contractAddress, address _licensedArchitect, uint _serviceDeposit, uint _autoreleaseInterval, string _recordBook);
+    event Created(address indexed contractAddress, address _licensedArchitect, uint _autoreleaseInterval, string _recordBook);
     event FundsAdded(address from, uint amount); //The licensedArchitect has added funds to the CBD.
     event LicensedArchitectStatement(string statement);
     event AssociateArchitectStatement(string statement);
@@ -114,7 +106,7 @@ contract CBDContract {
     event AutoreleaseTriggered();
 
 
-    function CBDContract(uint _id, uint _serviceDeposit, uint _autoreleaseInterval, string _recordBook, string _initialStatement)
+    function CBDContract(address architect, uint _id, uint _autoreleaseInterval, string _recordBook, string _initialStatement)
     payable 
     public
     {
@@ -122,13 +114,11 @@ contract CBDContract {
         id = _id;
         factory = msg.sender;
 
-        licensedArchitect = tx.origin;
+        licensedArchitect = architect;
         
         recordBook = _recordBook;
 
         state = State.Open;
-
-        serviceDeposit = _serviceDeposit;
 
         autoreleaseInterval = _autoreleaseInterval;
 
@@ -138,11 +128,11 @@ contract CBDContract {
             LicensedArchitectStatement(initialStatement);
 
         if (msg.value > 0) {
-            FundsAdded(tx.origin, msg.value);
+            FundsAdded(architect, msg.value);
             amountDeposited += msg.value;
         }
 
-        Created(this, licensedArchitect, _serviceDeposit, _autoreleaseInterval, _recordBook);		
+        Created(this, licensedArchitect, _autoreleaseInterval, _recordBook);		
     }
 
     // Allow the factory to reset our index
@@ -188,23 +178,9 @@ contract CBDContract {
     function getFullState()
     public
     constant
-    returns(address, string, string, State, address, uint, uint, uint, uint, uint, uint) 
+    returns(address, string, string, State, address, uint, uint, uint, uint, uint) 
     {
-        return (licensedArchitect, recordBook, initialStatement, state, associateArchitect, this.balance, serviceDeposit, amountDeposited, amountReleased, autoreleaseInterval, autoreleaseTime);
-    }
-
-    function setAssociateMessage(string message)
-    public
-    onlyassociateArchitect()
-    {
-        associateMessage = message;
-    }
-
-    function setArchitectMessage(string message)
-    public
-    onlylicensedArchitect()
-    {
-        architectMessage = message;
+        return (licensedArchitect, recordBook, initialStatement, state, associateArchitect, this.balance, amountDeposited, amountReleased, autoreleaseInterval, autoreleaseTime);
     }
 
     function getBalance()
@@ -243,18 +219,18 @@ contract CBDContract {
         selfdestruct(licensedArchitect);
     }
 
-    function commit()
+    // An associate can commit
+    function commit(address associate)
     public
     inState(State.Open)
-    coversDeposit()
-    payable
     {
-        if (msg.value > 0) {
-            FundsAdded(msg.sender, msg.value);
-            amountDeposited += msg.value;
-        }
-
-        associateArchitect = msg.sender;
+        CBDContractFactory owner = CBDContractFactory(factory);
+        require(msg.sender == owner.getTokenAddress());
+        
+        // We assume, that having been called from the token contract
+        // means that the transfer has been made and it is valid for the
+        // originator of this call to become the associate
+        associateArchitect = associate;
         state = State.Committed;
         Committed(associateArchitect);
 
@@ -368,11 +344,6 @@ contract CBDContract {
     }
     modifier onlylicensedArchitectOrassociateArchitect() {
         require((msg.sender == licensedArchitect) || (msg.sender == associateArchitect));
-        _;
-    }
-
-    modifier coversDeposit() {
-        require(msg.value == serviceDeposit);
         _;
     }
 

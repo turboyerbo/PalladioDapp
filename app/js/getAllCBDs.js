@@ -89,6 +89,9 @@ __loadManagerInstance.execWhenReady(function() {
   CBDContractFactory.methods.getCBDCount().call()
   .then(function(res){
     var nContracts = Number(res)
-    loadContract(0, nContracts)
+    for (var i = 0; i < nContracts; i++)
+    {
+      loadContract(i, nContracts)
+    }
   }, onError)
 });

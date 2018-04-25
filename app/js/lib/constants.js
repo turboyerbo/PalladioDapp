@@ -118,14 +118,13 @@ function parseCBDState(state, address)
     cbdObject['state'] = Number(state[3]);
     cbdObject['associateArchitect'] = state[4].toString();
     cbdObject['balance'] = toEther(state[5]);
-    cbdObject['commitThreshold'] = toEther(state[6]);
-    cbdObject['amountDeposited'] = toEther(state[7]);
+    cbdObject['amountDeposited'] = toEther(state[6]);
   
-    cbdObject['amountReleased'] = toEther(state[8]);
-    cbdObject['autoreleaseInterval'] = Number(state[9]);
-    cbdObject['autoreleaseTime'] = Number(state[10]);
+    cbdObject['amountReleased'] = toEther(state[7]);
+    cbdObject['autoreleaseInterval'] = Number(state[8]);
+    cbdObject['autoreleaseTime'] = Number(state[9]);
   
     var currentTime = (new Date).getTime() / 1000;
-    cbdObject['autoreleaseTimePassed'] = (currentTime >= Number(state[11]));
+    cbdObject['autoreleaseTimePassed'] = (currentTime >= Number(state[10]));
     return cbdObject
 }

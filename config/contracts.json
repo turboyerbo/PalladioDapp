@@ -18,12 +18,20 @@
       "CBDContract": {
         "deploy": false
       },
+      "EIP20Interface": {
+        "deploy": false
+      },
+      "IOwned": {
+        "deploy": false
+      },
+      "Owned": {
+        "deploy": false
+      },
       "CBDContractFactory": {
-        "args": [
-          "0x92173bAe269f63221b7c9651AD72AC99953c94A7"
-        ]
+      },
+      "SampleToken": {
+        "gas": 1500000
       }
-
     }
   }
 }

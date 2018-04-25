@@ -27,6 +27,8 @@ contract CBDContractFactory {
     // allowed to register new verified architects
     address palladioManagement;
 
+    address tokenContract;
+
     event NewCBD(address indexed newCBDAddress);
 
     // Constructor sets the address of our management account
@@ -41,6 +43,14 @@ contract CBDContractFactory {
     returns(address)
     {
         return palladioManagement;
+    }
+
+    function getTokenAddress()
+    public
+    constant
+    returns(address)
+    {
+        return tokenContract;
     }
 
     // Add a new architect to the system.  This architect
@@ -76,14 +86,14 @@ contract CBDContractFactory {
 
     // Create a new Collaborative Blockchain Design contract.  
     // Only a licensed architect is permitted to do this
-    function newCBDContract(uint serviceDeposit, uint autoreleaseInterval, string recordBook, string initialStatement)
+    function newCBDContract(uint autoreleaseInterval, string recordBook, string initialStatement)
     public
     payable
     checkArchitect(msg.sender, true)
     {
         //pass along any ether to the constructor
         uint nextId = CBDs.length;
-        CBDContract cbd = (new CBDContract).value(msg.value)(nextId, serviceDeposit, autoreleaseInterval, recordBook, initialStatement);
+        CBDContract cbd = (new CBDContract).value(msg.value)(msg.sender, nextId, autoreleaseInterval, recordBook, initialStatement);
         NewCBD(cbd);
 
         //save created CBDs in contract array
@@ -111,6 +121,13 @@ contract CBDContractFactory {
         CBDs[contractId] = CBDs[numContracts - 1];
         CBDContract(CBDs[contractId]).setId(contractId);
         CBDs.length = numContracts - 1;
+    }
+
+    function setTokenContract(address newTokenContract)
+    public
+    fromPalladio()
+    {
+        tokenContract = newTokenContract;
     }
     
     // Modifiers below:

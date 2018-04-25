@@ -41,6 +41,36 @@ function onAddArchitect() {
     addArchitectAccount(palladioAccount, architectAccount);
 }
 
+//-------------------------------------------------------------------
+
+function setTokenAddress(tokenAddress) {
+
+    $("#tokenOutputDiv").html("Set Token Contract address: (awaiting confirmation - please wait...)");        
+    CBDContractFactory.methods.setTokenContract(tokenAddress).send({"from":web3.eth.defaultAccount})
+    .then(function(addr) {
+        $("#onAddArchitectBtn")[0].disabled = false
+        updateCurrentTokenAddress()
+    }, onError);
+}
+function onSetTokenAddress() {
+
+    var tokenAddress = $("#tokenAddress").val(); 
+
+    if (!validateAccount(tokenAddress))
+        return
+        
+    $('#onSetTokenBtn')[0].disabled = true
+    setTokenAddress(tokenAddress);
+}
+
+function updateCurrentTokenAddress() {
+    CBDContractFactory.methods.getTokenAddress().call()
+    .then(function(res)
+    {
+        $("#tokenOutputDiv").html("Current Token Address: " + res);    
+    }, onError)
+}
+
 populateSelectWithAccounts("#palladioAccount")
 
 __loadManagerInstance.execWhenReady(function() {
@@ -48,4 +78,7 @@ __loadManagerInstance.execWhenReady(function() {
     .then(function(value){
         $("#outputDiv").html("There are " + value + " architects registered");
     }, onError)
+
+    $("#tokenAddress").val(SampleToken.options.address); 
+    updateCurrentTokenAddress()
 })

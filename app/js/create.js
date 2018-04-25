@@ -4,14 +4,13 @@ function onError(err) {
     $('#onCreateCBDBtn')[0].disabled = false
 }
 
-function callNewCBD(valueInEth, licensedArchitect, commitThresholdInEth, defaultTimeoutLengthInHours, commitRecordBook, description) {
+function callNewCBD(valueInEth, licensedArchitect, defaultTimeoutLengthInHours, commitRecordBook, description) {
     var valueInWei = web3.utils.toWei(valueInEth, 'ether');
-    var serviceDeposit = web3.utils.toWei(commitThresholdInEth, 'ether');
     var autoreleaseInterval = defaultTimeoutLengthInHours*60*60;
 
     $('#onCreateCBDBtn')[0].disabled = true
     $("#outputDiv").html("CBD Creation transaction submitted (please await confirmation...)");
-    CBDContractFactory.methods.newCBDContract(serviceDeposit, autoreleaseInterval, commitRecordBook, description)
+    CBDContractFactory.methods.newCBDContract(autoreleaseInterval, commitRecordBook, description)
         .send({'from':licensedArchitect,'value': valueInWei})
         .then(function(result){
             $('#onCreateCBDBtn')[0].disabled = false
@@ -34,32 +33,19 @@ function useCBDFormInput() {
     if (!validateAccount(architectAccount))
         return
 
-    var commitThresholdInEth = $("#commitThresholdInput").val();
-    if (commitThresholdInEth == '') {
-        alert("Please specify commit threshold!");
-        return;
-    }
-    commitThresholdInEth = Number(commitThresholdInEth);
-
     var commitRecordBook = $("#category").val();
     if (commitRecordBook == '') {
             alert("Please specify commit Record Book!");
             return;
 
     }
+    var defaultTimeoutLengthInHours = $("#defaultTimeoutLengthInHoursInput").val();
+    if (defaultTimeoutLengthInHours == '') {
+        alert("Must specify a default timeout length! (Or set default action to \"None\")");
+        return;
+    }
+    defaultTimeoutLengthInHours = Number(defaultTimeoutLengthInHours);
 
-    var hasDefaultAction = ($('input[name=hasDefaultActionInput]:checked', '#NewCBDForm').val() === "true");
-
-    //var defaultTimeoutLengthInHours = 
-    //if (hasDefaultAction) {
-        var defaultTimeoutLengthInHours = $("#defaultTimeoutLengthInHoursInput").val();
-        if (defaultTimeoutLengthInHours == '') {
-            alert("Must specify a default timeout length! (Or set default action to \"None\")");
-            return;
-        }
-        defaultTimeoutLengthInHours = Number(defaultTimeoutLengthInHours);
-    //}
-    //else var defaultTimeoutLengthInHours = 0;
 
     var description = $("#description").val();
     if (description == '') {
@@ -67,7 +53,7 @@ function useCBDFormInput() {
             return;
         }
     }
-    callNewCBD(valueInEth, architectAccount, commitThresholdInEth, defaultTimeoutLengthInHours, commitRecordBook, description);
+    callNewCBD(valueInEth, architectAccount, defaultTimeoutLengthInHours, commitRecordBook, description);
 }
 
 populateSelectWithAccounts("#architectAccount")

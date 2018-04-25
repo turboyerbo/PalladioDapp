@@ -399,6 +399,86 @@
       "0xf376ee56ae5fd924f6f95f35ca07326859e026f0c783226939723a6317f08607": {
         "name": "CBDContractFactory",
         "address": "0x37b03149a2d32cc54add16f657467aa3b38f59c9"
+      },
+      "0x0f74da1fdf121810cf3ed51f050f471d28e15903b635c37a13767ca2b5d45966": {
+        "name": "CBDContractFactory",
+        "address": "0x2f5d9dce99e29533658b6745de6b3397d1972a32"
+      },
+      "0x959b161b9ca788eb18c804e5e52a8b7e4817c672e1c8a69cc883532d27b8f257": {
+        "name": "CBDContractFactory",
+        "address": "0x8dd7fdfb87b190ad89c4212d7d690fbe5bf225c7"
+      },
+      "0x4b9c1dccac9251c8b7943f70f5b5362b023ffb374677e95b07f001492e3cc6fb": {
+        "name": "CBDContractFactory",
+        "address": "0x2b6f4433a4e316a47579b59b5d565849d388c55f"
+      },
+      "0x65c1a7b28947a321e36704f5b7f941804877f653d71d090b599202ca01411f69": {
+        "name": "ContractReceiver",
+        "address": "0xe60616eea912452bcffee80553f143d4ec8f8565"
+      },
+      "0xea0d587bf1e8a21b4ad16fc62860a84dd67ac79810b41213f2ae280a247eeda9": {
+        "name": "CBDContractFactory",
+        "address": "0xb3c6df234eae591d45b027826b663c6c332adb7b"
+      },
+      "0x7ad879f943b8b9054dae3d70c9ece786bfeac7699754a90d056087814c80749a": {
+        "name": "CBDContractFactory",
+        "address": "0x5dc4614c1cc7587a4d85ff1b282127ec04af9ee4"
+      },
+      "0x5bf340aa3f94ad73979701cb82d9c49930585a263f07ec105dd3e1079548d53d": {
+        "name": "CBDContractFactory",
+        "address": "0xb06d4e1c3b890e05141db038916eb2b706b12bbb"
+      },
+      "0xce3ed440f38ce3c5dfaeec143801bc4ab29b8a850a04b8a3aade5a3ff8cccee7": {
+        "name": "CBDContractFactory",
+        "address": "0xf69cf94b5b0b60d1d3fe34bcd71d6000da5bdc50"
+      },
+      "0x27f2896353a2d297cf21403b8c4a77cc6c4a8345fe20b9d6210e38c0bc5f7d3b": {
+        "name": "CBDContractFactory",
+        "address": "0x42e72d023f5c1ed096f40f8b0d6a048f65652506"
+      },
+      "0x7aa52bbc6dfbc5da85a8356b6e5abf861cbf93e31d341839bb466fb24ce7bdba": {
+        "name": "SampleToken",
+        "address": "0x87ad61c180f6cc64ebfad5440e92b704b0f88d5a"
+      },
+      "0xa38bcefd1bc2609095af986efa5b52a4f083ce31b0e2b041075070a876c46cc7": {
+        "name": "CBDContractFactory",
+        "address": "0xbad68595c957c2dde24bc994ec3b83450d84fd3b"
+      },
+      "0x78872261276874e5432874ac3499ea6bc17bf03adffa0b6985022dc2494e51cf": {
+        "name": "SampleToken",
+        "address": "0x9ff5fa007ed595078fefb57bf75264598b961635"
+      },
+      "0x67128c6d61f2606fe30ba26ecb69b23509f733c39d2a067db914f148b0c0e16a": {
+        "name": "CBDContractFactory",
+        "address": "0x05327e816829f3fbd25719ca7fa89a9d231b3e56"
+      },
+      "0x732fe9753a6284acdfd885fbd4453107128e901d61c166d14aa510743d7e49de": {
+        "name": "SampleToken",
+        "address": "0x6b520ace3fc5d0bf583800b47c09ff7c15f2683f"
+      },
+      "0x524c9f3a1d8bf5e5379b76246e5c7cf96a980517aab6dfa934b7d2e0d8dac04b": {
+        "name": "CBDContractFactory",
+        "address": "0x725ebecdf28cc082dbb80af6b264e5f0b36021f2"
+      },
+      "0x9c509a7b8c50da99f147fc287642a1eaaba592af2e60053bf21440a6aa6c6608": {
+        "name": "CBDContractFactory",
+        "address": "0xbecb88c651135a7cf16b6ab5bf49fc1c89aaa0c5"
+      },
+      "0xaaf7afc99a649b8c2135ed83f82ebfe3feb1f881ede1887aaad8cd13fd85bc7a": {
+        "name": "SampleToken",
+        "address": "0xe2e6a5b82ab5f7bbc6833926001e3553a5941a2e"
+      },
+      "0xaa93928df8e2e5447c3844bfbabcaaed93110e14a34eef64606026c2fe2e1925": {
+        "name": "SampleToken",
+        "address": "0xa0e97a091180e786a29698e3651ebbad56ec31ce"
+      },
+      "0xbb58897a40d976c4da8caf575ff601487781086f5c35a697aaa75a5403037dc6": {
+        "name": "CBDContractFactory",
+        "address": "0x1422f586aee9f956e2efe05676f11fbe2bb04252"
+      },
+      "0x1c69063c57efc62342e1ba9c62b022d28b4ec59319a60fcbac2911c8c52d8f79": {
+        "name": "SampleToken",
+        "address": "0x2938514506d2e23149acfe8c0bab20f9d357f9c1"
       }
     },
     "name": "testnet"

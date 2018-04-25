@@ -11,5 +11,9 @@
   "devDependencies": {
     "embark": "^2.5.2",
     "mocha": "^2.2.5"
+  },
+  "dependencies": {
+    "npm": "^5.8.0",
+    "solc": "^0.4.21"
   }
 }

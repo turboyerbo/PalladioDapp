@@ -34,7 +34,6 @@ function onError(err)
   $('#CBDlicensedArchitectStringOutput').text("None");
   $('#CBDRecipientStringOutput').text("None");
   $('#CBDBalanceOutput').text("None");
-  $('#CBDCommitThresholdOutput').text("None");
   $('#CBDFundsDepositedOutput').text("None");
 
   $('#CBDFundsReleasedOutput').text("None");
@@ -81,7 +80,6 @@ function insertInstanceStatsInPage(CBD, address){
   CBD.recipient == '0x0000000000000000000000000000000000000000' ? $('#CBDRecipientOutput').text("None") : $('#CBDRecipientOutput').text(CBD.associateArchitect);
   $('#CBDRecipientStringOutput').text(CBD.recipientString, 'ether');
   $('#CBDBalanceOutput').text(CBD.balance + ' ETH');
-  $('#CBDCommitThresholdOutput').text(CBD.commitThreshold + ' ETH');
   $('#CBDFundsDepositedOutput').text(CBD.amountDeposited + ' ETH');
   $('#CBDFundsReleasedOutput').text(CBD.amountReleased + ' ETH');
 
@@ -248,12 +246,13 @@ function commitlicensedArchitectStringUpdate() {
 
 
 //smart contract caller and handler functions
-function handleCommitResult(err, res) {
-    if (err) console.log(err.message);
+function handleCommitResult(res) {
+  $('#CBDRecipientOutput').text(web3.eth.defaultAccount)
 }
+
 function callCommit() {
-  commitAmountInWei = web3.utils.toWei(CBD.commitThreshold,'ether')
-  CBDContract.methods.commit().send({'value':commitAmountInWei, "from":web3.eth.defaultAccount})
+  //CBDContract.methods.commit().send({'value':commitAmountInWei, "from":web3.eth.defaultAccount})
+  SampleToken.methods.commit(CBDContract.options.address).send({"from":web3.eth.defaultAccount})
   .then(handleCommitResult);
 }
 function handleRecoverFundsResult(err, res) {
