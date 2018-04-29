@@ -1,23 +1,35 @@
 <!DOCTYPE html>
 <html>
   <head>
+
+      <meta charset="utf-8">
+     <title>New Contract</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      <link rel="stylesheet" href="css/common.css">
+    
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script src="https://wallet.metamask.io/metamascara.js"></script>
+  
+    
   <script src="js/lib/embark.js"></script>
   <script src="js/lib/jquery.js"></script>
   <script src="js/lib/constants.js"></script>
   <script src="js/create.js"></script>
   </head>
-  <body class='container'>
-   <big><big><big><b>Create CBD</b></big></big></big><br>
-    <br><br><br>
-   
-    Architect Account: <select id="architectAccount"></select><br><br>
-    Payment Amount: <input id = 'paymentAmountInput' name='paymentAmountInput' type='text'  placeholder='ETH' size='7'><br><br>
-    Auto Release Time: <input type='text' id='defaultTimeoutLengthInHoursInput' name='defaultTimeoutLengthInHoursInput'  placeholder='Hours'><br><br>
-    <br>
+  <a href='/'>Palladio Home</a><br> 
+  <body class='container'><br>
+     <h3>New Contract</h3><br>
+    Architect Account: <select id="architectAccount"></select><br>
+    <a target="_blank" href="https://metamask.io">Access your account by installing Metamask</a><br><br>
 
-    <h3>Record Book Entry</h3><br><br>
+    Contract Time: <input type='text' id='defaultTimeoutLengthInHoursInput' name='defaultTimeoutLengthInHoursInput'  placeholder='Hours'><br><br>
+
+    Contract Value: <input id = 'paymentAmountInput' name='paymentAmountInput' type='text'  placeholder='Ether' size='7'><br>
+    <a target="_blank" href="https://coinmarketcap.com/calculator/">Convert CAD to Ethereum</a><br><br>
       
-    <select id="category"><br><br>
+    <select id="category"><br>
       <option>Programming</option>
       <option>Site Analysis</option>
       <option>Schematic Design</option>
@@ -28,15 +40,18 @@
       <option>Construction Documents</option>
       <option>Specifications and Material Research</option>
       <options>Documents Checking and Coordination</options>
-    </select>
-<br><br><br>
+    </select><br>
 
-    Architect's Proffesional Statement:<br><textarea id='description' name='description' cols='80' rows='15' placeholder="Brief description and link to the file."></textarea><br><br>
+    <a target="_blank" href="http://www.oaa.on.ca/images/docs/1328214720_CERB-3720hours.pdf">Canadian Experience Record Book</a><br><br>
+  
+  <P><h2>Architect's Proffesional Statement</h2></P>
+  <textarea id='description' name='description' cols='80' rows='15' placeholder="Specific activities for this task (include links, descriptions, and references."></textarea><br><br>
     
-<center> <input id="onCreateCBDBtn" type='submit' value='Create CBD' onclick="useCBDFormInput()"> </center>
+ <input id="onCreateCBDBtn" type='submit' value='Create CBD' onclick="useCBDFormInput()">
     <div id='outputDiv'></div>
 
   </body>
+
 </html>
 
 

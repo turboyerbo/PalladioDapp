@@ -17,7 +17,7 @@ function buildCBDRow(cbdObject, index){
   if(index !== 0) $("tbody").append($(".mainTableRow").first().clone());
   switch(cbdObject.state){
     case 0:
-      $(`.state:eq(${index})`).parent().css("background-color", "aquamarine");
+      $(`.state:eq(${index})`).parent().css("background-color", "#B4E1E8");
       break;
     case 1:
       $(`.state:eq(${index})`).parent().css("background-color", "cyan");
@@ -35,7 +35,7 @@ function buildCBDRow(cbdObject, index){
     // $(`.associateArchitect:eq(${index})`).text("associateArchitect: \n" + );
     $(`.associateArchitect:eq(${index})`).html(`Associate \n <a href='${window.etherscanURL}${cbdObject.associateArchitect}'>${cbdObject.associateArchitect}</a>`);
   }else{
-    $(`.associateArchitect:eq(${index})`).html(`No Associate! <a href='interact.html?contractAddress=${cbdObject.address}'> Commit ether to become the associateArchitect.</a>`);
+    $(`.associateArchitect:eq(${index})`).html(`Associate ID (none): <a href='interact.html?contractAddress=${cbdObject.address}'> Commit to this Contract?</a>`);
   }
   $(`.balance:eq(${index})`).text(cbdObject.balance);
   $(`.commitThreshold:eq(${index})`).text(cbdObject.commitThreshold);

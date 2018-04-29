@@ -479,6 +479,58 @@
       "0x1c69063c57efc62342e1ba9c62b022d28b4ec59319a60fcbac2911c8c52d8f79": {
         "name": "SampleToken",
         "address": "0x2938514506d2e23149acfe8c0bab20f9d357f9c1"
+      },
+      "0x18b6965bde18e367041cee4c660ea57889368edf5b180c3deb818b5ff64a1886": {
+        "name": "CBDContractFactory",
+        "address": "0x1dc191b736be034d0b04f47793e9361501c9d3bb"
+      },
+      "0x4de920ee488bffe9769d4a2e1b7c39d750ebb3d35b1504b05c83abb63b125ad5": {
+        "name": "SampleToken",
+        "address": "0xe2ecb649636afe658d6ab30efcf45c2115b4c71b"
+      },
+      "0x5c78c0aee490666c3b26eff529141254d8c94a4c82bd4aa004ef7f95f39020b5": {
+        "name": "CBDContractFactory",
+        "address": "0x3a66374e70c5714cfeaed1cff6278538a21dcddb"
+      },
+      "0x8f4269d86b9447208e6912b071a3f6a711233c361b6175434ed79e0a45356a12": {
+        "name": "SampleToken",
+        "address": "0x96b3e49c9a916cdd479d4bea24851b34e02e1afc"
+      },
+      "0x112a76938865fc8e64276776d2c92fa22412061eebd3818fbd4e30b75356027c": {
+        "name": "CBDContractFactory",
+        "address": "0x64a72af362ea3cc41d4335219018363678a816eb"
+      },
+      "0x43ef75058c7c49e6a49cb00d660f744245456f823db05a367e3c368189eb67fb": {
+        "name": "SampleToken",
+        "address": "0xa031ebed8e80da3ef6982f0e2c977af6c515da79"
+      },
+      "0x4dc66467c95d427fd864e630ae2cc1a046ad9142cd67132212da0e4146658c2c": {
+        "name": "CBDContractFactory",
+        "address": "0xf1ad05142079879273737af863547e4ebbe9f2df"
+      },
+      "0x8f3f9bb9fa8489f196c16eae3598c713b1795ba34bf4b39bc66cf32c6986a8d0": {
+        "name": "SampleToken",
+        "address": "0xdc8a48fdd5107da4d338cd80c62112b0b83e56d8"
+      },
+      "0xd07eee42c33f78ae720ba1094205f794d21c75ef33b00f390de1bd0de0e47dc0": {
+        "name": "CBDContractFactory",
+        "address": "0x9d8d256487eeda717a30afc37bcac1d0261b2c4d"
+      },
+      "0xf459f93f8ceda29b9fe0a5f01e8b8335523cc13a5e10715e02fe0a2c545a04d2": {
+        "name": "SampleToken",
+        "address": "0x3f8d499671575b400a7ec4add41686bbe02d94d7"
+      },
+      "0x9c32c46335aa383bab8b7b6a8c969055277bc16a6a04b25e0527fc6048300432": {
+        "name": "PL1Token",
+        "address": "0x6610f33f083402b03df814f58f4d6be292d97b92"
+      },
+      "0x60789f08f966bb43468f3aa195559c148d43aa4423d3c16815be7a86d1f67045": {
+        "name": "CBDContractFactory",
+        "address": "0x18e1647cb39b456a40fdf18c4f6a24082d54a3bd"
+      },
+      "0x74ba30aa2147c33d61de8f29e1745e23b5c23a5860d48ccdc9cbeb981eccd198": {
+        "name": "BasicToken",
+        "address": "0x6a4ec900a6c11ce521ad682dce4c14a9d54d1572"
       }
     },
     "name": "testnet"

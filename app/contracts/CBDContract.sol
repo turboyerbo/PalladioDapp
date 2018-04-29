@@ -1,7 +1,7 @@
 pragma solidity ^0.4.17;
 
 import "./CBDContractFactory.sol";
-import "./SampleToken.sol";
+import "./PL1Token.sol";
 
 //*Collaborative Blockchain Design (CBD) begins when the Licensed Architect (Ontario Association of Architects)is: 
 // (1) digitally-verified using their unique Public Key assigned by the Palladio; 
@@ -78,7 +78,8 @@ contract CBDContract {
     uint public autoreleaseInterval;
 
     //Calculated from autoreleaseInterval in commit(),
-    //and recaluclated whenever the licensedArchitect (or possibly the associateArchitect) calls delayhasDefaultRelease()
+    //and recaluclated whenever the licensedArchitect (or possibly the associateArchitect) 
+    //calls delayhasDefaultRelease()
     //After this time, auto-release can be called by the associateArchitect.
     uint public autoreleaseTime;
 
@@ -104,7 +105,6 @@ contract CBDContract {
     event Unclosed();
     event AutoreleaseDelayed();
     event AutoreleaseTriggered();
-
 
     function CBDContract(address architect, uint _id, uint _autoreleaseInterval, string _recordBook, string _initialStatement)
     payable 

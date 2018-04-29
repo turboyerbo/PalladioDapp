@@ -1,7 +1,7 @@
-// Abstract contract for the full ERC 20 Token standard
-// https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md
 pragma solidity ^0.4.17;
 
+// Abstract contract for the full ERC 20 Token standard
+// https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md
 
 contract EIP20Interface {
     /* This is a slight change to the ERC20 base standard.
@@ -14,6 +14,7 @@ contract EIP20Interface {
     function by the compiler.
     */
     /// total amount of tokens
+    
     uint256 public totalSupply;
 
     /// @param _owner The address from which the balance will be retrieved

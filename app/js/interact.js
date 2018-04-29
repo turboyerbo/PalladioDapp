@@ -90,7 +90,7 @@ function insertInstanceStatsInPage(CBD, address){
   switch(CBD.state)
   {
     case 0:
-    $('#CBDTable').css("background-color", "rgb(204, 255, 204)");
+    $('#CBDTable').css("background-color", "#B4E1E8");
     break
     case 1:
     $('#CBDTable').css("background-color", "cyan");
@@ -252,7 +252,7 @@ function handleCommitResult(res) {
 
 function callCommit() {
   //CBDContract.methods.commit().send({'value':commitAmountInWei, "from":web3.eth.defaultAccount})
-  SampleToken.methods.commit(CBDContract.options.address).send({"from":web3.eth.defaultAccount})
+  PL1Token.methods.commit(CBDContract.options.address).send({"from":web3.eth.defaultAccount})
   .then(handleCommitResult);
 }
 function handleRecoverFundsResult(err, res) {

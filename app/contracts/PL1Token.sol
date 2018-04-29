@@ -1,15 +1,15 @@
+pragma solidity ^0.4.17;
+
 /*
 Implements EIP20 token standard: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md
 .*/
-
-
-pragma solidity ^0.4.17;
 
 import "./EIP20Interface.sol";
 import "./Owned.sol";
 import "./CBDContract.sol";
 
-contract SampleToken is EIP20Interface, Owned {
+
+contract PL1Token is EIP20Interface, Owned {
 
     uint256 constant private MAX_UINT256 = 2**256 - 1;
     mapping (address => uint256) public balances;
@@ -20,25 +20,26 @@ contract SampleToken is EIP20Interface, Owned {
     They allow one to customise the token contract & in no way influences the core functionality.
     Some wallets/interfaces might not even bother to look at this information.
     */
-    string public name;                   //fancy name: eg Simon Bucks
-    uint8 public decimals;                //How many decimals to show.
-    string public symbol;                 //An identifier: eg SBX
+    string public name;                   //PLn Token; n = version of test coin from 1-5
+    uint8 public decimals;                //How many decimals to show. Always use 18 since it is ERC20 standarard
+    string public symbol;                 //An identifier:
+                                          //eg PLD will be the official ticker. For testing use PL1, PL2...PLn
 
     uint8 public commitThreshold;
 
-    function SampleToken(
+    function PL1Token(
     ) public {
-        totalSupply = 50000;                        // Update total supply
-        balances[msg.sender] = totalSupply;               // Give the creator all initial tokens
-        name = "Testing Testing";                                   // Set the name for display purposes
-        decimals = 2;                            // Amount of decimals for display purposes
-        symbol = "PALT";                               // Set the symbol for display purposes
+        totalSupply = 50000000000000000000000000;                   // Update total supply
+        balances[msg.sender] = totalSupply;       // Give the creator all initial tokens
+        name = "PL1 Token";                       // Set the name for display purposes
+        decimals = 18;                            // Amount of decimals for display purposes
+        symbol = "PL1";                           // Set the symbol for display purposes
 
-        commitThreshold = 100;
+        commitThreshold = 100;                      
 
-        // TESTING - Automatically transfer 10 transactions to my assocuate account
-        address associate = 0x9e9D2970E20558dADbC77BeE00075BA993E1B47E;
-        transfer(associate, commitThreshold * 10);
+        // TESTING - Automatically transfer 10 transactions to my associate testing account. Andrea Gondola Associate Account: 0xf51f8336cE3fa46a2b37b52456D2271794C015D1
+        address associate = 0xf51f8336cE3fa46a2b37b52456D2271794C015D1;
+        transfer(associate, commitThreshold * 10000000000000000000);
     }
 
     function transfer(address _to, uint256 _value) public returns (bool success) {
@@ -98,7 +99,7 @@ contract SampleToken is EIP20Interface, Owned {
 
     }
 
-      //assemble the given address bytecode. If bytecode exists then the _addr is a contract.
+      //Assemble the given address bytecode. If bytecode exists then the _addr is a contract.
     function isContract(address _addr) private view returns (bool is_contract) {
         uint length;
         assembly {
