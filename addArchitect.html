@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <a href='/'>Palladio Home</a><br><br><br>  
+  <script src="js/lib/embark.js"></script>
+  <script src="js/lib/jquery.js"></script>
+  <script src="js/lib/constants.js"></script>
+  <script src="js/addArchitect.js"></script>
+  </head>
+  <center>
+  <body class='container'>
+   <big><big><big><b>Palladio Administration</b></big></big></big><br>
+    <br><br><br>
+    Palladio Account: <select id="palladioAccount" style="width: 300px"></select><br><br><br>
+    <input id='architectAccount' placeholder='0x12345...' size='50'>
+  <input type='submit' id='onAddArchitectBtn' value='Add Account as Architect' onclick="onAddArchitect()"> <br><br>
+    <div id='outputDiv'></div><br><br><br>
+   <input id='tokenAddress' placeholder='0x12345...' size='50'>
+   <input type='submit' id='onSetTokenBtn' value='Set Token Address' onclick="onSetTokenAddress()"><br><br><br>
+    <div id='tokenOutputDiv'></div>
+  </center>
+  </body>
+</html>
+
+
