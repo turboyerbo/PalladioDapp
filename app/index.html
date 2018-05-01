@@ -2,54 +2,60 @@
 <head>
   <meta charset="utf-8">
   <title>Palladio - Collaborative Blockchain Design (CBD)</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/common.css">
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/app.css">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://wallet.metamask.io/metamascara.js"></script>
-  <script src="script/loadNavbar.js"></script>
   <script src="script/index.js"></script>
-
-  <nav class="navbar navbar-default">
-      <div class="container-fluid">
-
-        
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
-          </button>
-          <br><br><br><br><br><br><br><br>
-        </div>
-        <div class="d-display" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav">
-            <h3><li><center><a href="getAllCBDs.html">Browse Contracts</a></li><br><br><br>
-            
-            <li><a href="create.html">Create a Contract</center></a></li><br><br><br>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="addArchitect.html">Admin</a></li>
-            <li><a href="http://palladio.io/how-it-works.html">What is Collaborative Blockchain Design?</a></li></h3>
-           
-           
-          </ul>
-        </div>
-      </div>
-    </nav>
 </head>
-
-
 <body>
-<div id="nav-placeholder"></div>
-<div class="container">
-  <div class="well" style="font-size:2.8rem">
-       <p>Platform for Architects<br><br><h2>Outsource tasks, monitor work, archive files, and make payments. </h2> <a href="http://palladio.io/try-it-out.html">palladio.io </a></p>
-       <br><br><br><br>
-       <p> <a href="https://github.com/turboyerbo">Source code</a><br><br>
-</div>
-</div>
-  
+  <!-- Navbar -->
+  <div class="top">
+  <div class="bar red card left-align large">
+    <a class="bar-item button hide-medium hide-large right padding-large hover-white large red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="#" class="bar-item button padding-large white">Home</a>
+    <a href="getAllCBDs.html" class="bar-item button hide-small padding-large hover-white">Browse Contracts</a>
+    <a href="create.html" class="bar-item button hide-small padding-large hover-white">Create a Contract</a>
+    <a href="addArchitect.html" class="bar-item button hide-small padding-large hover-white">Admin</a>
+    <a href="http://palladio.io/how-it-works.html" class="bar-item button hide-small padding-large hover-white">About us</a>
+  </div>
+  <!-- Navbar on small screens -->
+  <div id="navDemo" class="bar-block white hide hide-large hide-medium large">
+    <a href="getAllCBDs.html" class="bar-item button padding-large">Browse Contracts</a>
+    <a href="create.html" class="bar-item button padding-large">Create a Contract</a>
+    <a href="addArchitect.html" class="bar-item button padding-large">Admin</a>
+    <a href="http://palladio.io/how-it-works.html" class="bar-item button padding-large">About us</a>
+  </div>
+  </div>
+
+  <!-- Header -->
+  <header class="container red center" style="padding:128px 16px">
+    <h1 class="margin jumbo">PALLADIO</h1>
+    <p class="xlarge">coopertive arquitect design</p>
+    <button href="https://github.com/turboyerbo" class="button black padding-large large margin-top">Source code</button>
+  </header>
+
+  <!-- First Grid -->
+  <div class="row-padding padding-64 container">
+    <div class="content">
+      <div class="twothird">
+        <h1>Platform for Architects</h1>
+        <h5 class="padding-32">Outsource tasks, monitor work, archive files, and make payments.</h5>
+
+        <p class="text-grey">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint
+          occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+          laboris nisi ut aliquip ex ea commodo consequat.</p>
+      </div>
+      <div class="third center">
+        <i class="fa fa-heart padding-64 text-red" style="font-size: 250px"></i>
+      </div>
+    </div>
+  </div>
 </body>
 
 
