@@ -89,6 +89,7 @@ contract CBDContract {
         Committed,
         Closed
     }
+    
     State public state;
     //Note that a CBD cannot go from Committed back to Open, but it can go from Closed back to Committed
     //(this would retain the committed associateArchitect). Search for Closed and Unclosed events to see how this works.
