@@ -301,7 +301,8 @@ function addFundsFromForm() {
 	callAddFunds(amount);
 }
 function callDefaultAction(){
-  CBDContract.methods.callDefaultRelease(logCallResult);
+  CBDContract.methods.callDefaultRelease(logCallResult).send({"from":web3.eth.defaultAccount})
+  .then(handleDefaultReleaseResult);
 }
 function delayDefaultRelease(){
   // var delayDefaultActionInHours = Number($('input[type=text]', '#delayDefaultActionForm').val());

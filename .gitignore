@@ -4,3 +4,4 @@ dist/
 .node-xmlhttprequest*
 node_modules/
 package-lock.json
+config/testnet/password
