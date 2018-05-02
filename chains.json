@@ -561,5 +561,18 @@
       }
     },
     "name": "development"
+  },
+  "0xb6cfeab83614da04c03db0fb8a6787a45d0be8d576fcc6f8f457a5a816d22ab3": {
+    "contracts": {
+      "0x476b3b8a2cba74c5026959a0d4ba6ec5b1dcce82e0c2c431f6070f9ef3729158": {
+        "name": "CBDContractFactory",
+        "address": "0xaafea90543abcec0b28f1f0beb6b9f22654b94c5"
+      },
+      "0xad8fbd2663e4ecb70d9ade7dba34763df1e78c7419bfcd942cfe6a69adf95d76": {
+        "name": "SampleToken",
+        "address": "0x74182c8c165aa4a4cfe66e185bd1ff8ce9f82541"
+      }
+    },
+    "name": "development"
   }
 }
