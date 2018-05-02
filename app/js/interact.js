@@ -43,12 +43,12 @@ function onError(err)
 }
 
 __loadManagerInstance.execWhenReady(function() {
-  //window.etherscanURL = "https://etherscan.io/address/"
+  //window.etherscanURL = "https://etherscan.io/contractAddress/";
   //window.etherscanURL = "https://ropsten.etherscan.io/address/";
 
   params = getSearchParameters();
   address = params["contractAddress"]
-  CBDContract.options.address = address
+  CBDContract.options.address = address;
 
   getEventsAndParticipants('logs','getLogs','address=' + address);
   registerForNewEvents();
@@ -83,7 +83,7 @@ function insertInstanceStatsInPage(CBD, address){
   $('#CBDFundsDepositedOutput').text(CBD.amountDeposited + ' ETH');
   $('#CBDFundsReleasedOutput').text(CBD.amountReleased + ' ETH');
 
-  //$('#CBDDefaultActionOutput').text(CBD.defaultAction);
+  $('#CBDDefaultActionOutput').text(CBD.defaultAction);
   $('#CBDDefaultTimeoutLength').text(secondsToDhms(CBD.autoreleaseInterval));
   $('#CBDDefaultActionTriggerTime').text(new Date(CBD.autoreleaseTime * 1000).toLocaleString());
 
@@ -93,7 +93,7 @@ function insertInstanceStatsInPage(CBD, address){
     $('#CBDTable').css("background-color", "#B4E1E8");
     break
     case 1:
-    $('#CBDTable').css("background-color", "cyan");
+    $('#CBDTable').css("background-color", "ffffff");
     break;
     case 2:
     $('#CBDTable').css("background-color", "grey");
