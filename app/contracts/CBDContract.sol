@@ -1,7 +1,7 @@
 pragma solidity ^0.4.17;
 
 import "./CBDContractFactory.sol";
-import "./SampleToken.sol";
+import "./Palladiosoft1Token.sol";
 
 //*Collaborative Blockchain Design (CBD) begins when the Licensed Architect (Ontario Association of Architects)is: 
 // (1) digitally-verified using their unique Public Key assigned by the Palladio; 
@@ -13,7 +13,7 @@ import "./SampleToken.sol";
 
 // (1) been accredicted by the Canadian Architecture Certification Board (CACB); 
 // (2) authenticated their identity using their unique CACB Public Key to access the form;
-// (3) commits to the contract by making a deposit with Palladio Tokens (PAL)
+// (3) commits to the contract by making a deposit with Palladiosoft1 Tokens (PL1)
 
 // The constructor is payable, so the contract can be instantiated with initial funds.
 // In addition, anyone can add more funds to the Payment by calling addFunds.
@@ -36,7 +36,7 @@ import "./SampleToken.sol";
 // Any associate can join the contract once it's been set via commit().
 
 // In the committed state,
-// the Licensed Architect can at any time choose to release any amount of PAL Tokens.
+// the Licensed Architect can at any time choose to release any amount of PL1 Tokens.
 // any Associate Architect and any amount of funds.*
 
 contract CBDContract {
