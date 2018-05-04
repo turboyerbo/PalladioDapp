@@ -28,17 +28,17 @@ contract SampleToken is EIP20Interface, Owned {
 
     function SampleToken(
     ) public {
-        totalSupply = 50000;                        // Update total supply
-        balances[msg.sender] = totalSupply;               // Give the creator all initial tokens
-        name = "Testing Testing";                                   // Set the name for display purposes
-        decimals = 2;                            // Amount of decimals for display purposes
-        symbol = "PALT";                               // Set the symbol for display purposes
+        totalSupply = 50000000000000000000000;          // Update total supply
+        balances[msg.sender] = totalSupply;             // Give the creator all initial tokens
+        name = "Palladiosoft1";                         // Set the name for display purposes
+        decimals = 18;                                  // Amount of decimals for display purposes
+        symbol = "PL1";                                 // Set the symbol for display purposes
 
         commitThreshold = 100;
 
         // TESTING - Automatically transfer 10 transactions to my assocuate account
         address associate = 0x9e9D2970E20558dADbC77BeE00075BA993E1B47E;
-        transfer(associate, commitThreshold * 10);
+        transfer(associate, commitThreshold * 10000000000000000000);
     }
 
     function transfer(address _to, uint256 _value) public returns (bool success) {
