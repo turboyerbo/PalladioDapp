@@ -43,12 +43,12 @@ function onError(err)
 }
 
 __loadManagerInstance.execWhenReady(function() {
-  //window.etherscanURL = "https://etherscan.io/address/"
+  //window.etherscanURL = "https://etherscan.io/contractAddress/";
   //window.etherscanURL = "https://ropsten.etherscan.io/address/";
 
   params = getSearchParameters();
   address = params["contractAddress"]
-  CBDContract.options.address = address
+  CBDContract.options.address = address;
 
   getEventsAndParticipants('logs','getLogs','address=' + address);
   registerForNewEvents();
@@ -83,17 +83,17 @@ function insertInstanceStatsInPage(CBD, address){
   $('#CBDFundsDepositedOutput').text(CBD.amountDeposited + ' ETH');
   $('#CBDFundsReleasedOutput').text(CBD.amountReleased + ' ETH');
 
-  //$('#CBDDefaultActionOutput').text(CBD.defaultAction);
+  $('#CBDDefaultActionOutput').text(CBD.defaultAction);
   $('#CBDDefaultTimeoutLength').text(secondsToDhms(CBD.autoreleaseInterval));
   $('#CBDDefaultActionTriggerTime').text(new Date(CBD.autoreleaseTime * 1000).toLocaleString());
 
   switch(CBD.state)
   {
     case 0:
-    $('#CBDTable').css("background-color", "rgb(204, 255, 204)");
+    $('#CBDTable').css("background-color", "#B4E1E8");
     break
     case 1:
-    $('#CBDTable').css("background-color", "cyan");
+    $('#CBDTable').css("background-color", "ffffff");
     break;
     case 2:
     $('#CBDTable').css("background-color", "grey");
@@ -252,7 +252,7 @@ function handleCommitResult(res) {
 
 function callCommit() {
   //CBDContract.methods.commit().send({'value':commitAmountInWei, "from":web3.eth.defaultAccount})
-  SampleToken.methods.commit(CBDContract.options.address).send({"from":web3.eth.defaultAccount})
+  PL1Token.methods.commit(CBDContract.options.address).send({"from":web3.eth.defaultAccount})
   .then(handleCommitResult);
 }
 function handleRecoverFundsResult(err, res) {
@@ -301,7 +301,8 @@ function addFundsFromForm() {
 	callAddFunds(amount);
 }
 function callDefaultAction(){
-  CBDContract.methods.callDefaultRelease(logCallResult);
+  CBDContract.methods.callDefaultRelease(logCallResult).send({"from":web3.eth.defaultAccount})
+  .then(handleDefaultReleaseResult);
 }
 function delayDefaultRelease(){
   // var delayDefaultActionInHours = Number($('input[type=text]', '#delayDefaultActionForm').val());

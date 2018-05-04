@@ -3,6 +3,7 @@ pragma solidity ^0.4.17;
 /*
     Owned contract interface
 */
+
 contract IOwned {
     // this function isn't abstract since the compiler emits automatically generated getter functions as external
     function owner() public view returns (address) {}

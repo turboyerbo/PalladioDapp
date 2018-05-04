@@ -29,8 +29,8 @@
       },
       "CBDContractFactory": {
       },
-      "SampleToken": {
-        "gas": 1500000
+      "PL1Token": {
+        "gas": 2100000
       }
     }
   }

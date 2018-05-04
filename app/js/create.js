@@ -9,12 +9,12 @@ function callNewCBD(valueInEth, licensedArchitect, defaultTimeoutLengthInHours, 
     var autoreleaseInterval = defaultTimeoutLengthInHours*60*60;
 
     $('#onCreateCBDBtn')[0].disabled = true
-    $("#outputDiv").html("CBD Creation transaction submitted (please await confirmation...)");
+    $("#outputDiv").html("Contract submitted to the blockchain (view Contract on Etherscan)");
     CBDContractFactory.methods.newCBDContract(autoreleaseInterval, commitRecordBook, description)
         .send({'from':licensedArchitect,'value': valueInWei})
         .then(function(result){
             $('#onCreateCBDBtn')[0].disabled = false
-            $("#outputDiv").html("CBD Creation transaction submitted successfully (updating num live contracts)");
+            $("#outputDiv").html("Contract submitted successfully (updating number of live contracts)");
             return CBDContractFactory.methods.getCBDCount().call();
         }, onError).then(function(result) {
             $("#outputDiv").html("CBD Creation transaction submitted successfully. There are " + result + " available contracts");
@@ -35,13 +35,13 @@ function useCBDFormInput() {
 
     var commitRecordBook = $("#category").val();
     if (commitRecordBook == '') {
-            alert("Please specify commit Record Book!");
+            alert("Please specify Record Book Category!");
             return;
 
     }
     var defaultTimeoutLengthInHours = $("#defaultTimeoutLengthInHoursInput").val();
     if (defaultTimeoutLengthInHours == '') {
-        alert("Must specify a default timeout length! (Or set default action to \"None\")");
+        alert("Must specify a default timeout length!)");
         return;
     }
     defaultTimeoutLengthInHours = Number(defaultTimeoutLengthInHours);
@@ -49,7 +49,7 @@ function useCBDFormInput() {
 
     var description = $("#description").val();
     if (description == '') {
-        if (!confirm("Initial description is empty! Are you sure you want to open a CBD without a description?")) {
+        if (!confirm("Initial description is empty! Include instructions about the task.")) {
             return;
         }
     }

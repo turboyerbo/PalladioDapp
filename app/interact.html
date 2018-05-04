@@ -2,39 +2,36 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Palladio - Interact with CBD</title>
-    <script type="text/javascript" src="js/lib/embark.js"></script>
-    <script type="text/javascript" src="js/lib/jquery.js"></script>
-    <script type="text/javascript" src="js/lib/constants.js"></script>
-    <script type="text/javascript" src="js/interact.js"></script>
-
-    <link rel="stylesheet" type="text/css" href="style/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="style/interact.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/common.css">
+    <title>Palladio - get CBD addrs</title>
+    <script type="text/javascript" src='js/lib/embark.js'></script>
+    <script type="text/javascript" src='js/lib/jquery.js'></script>
+    <script type="text/javascript" src='js/lib/constants.js'></script>
+    <script type="text/javascript" src='js/interact.js'></script>
+    <script type="text/javascript" src="js/tableFilter.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
   <body>
     <h1 align="center">Palladio</h1>
-    <h2 align="center">Interact</h2>
+    <h2 align="center">Platform for Architects</h2>
     <table><tr>
         <td width='100%'>
-            <div align='center' color=blue id='userAddress'></div>
+            <div align='center' color=blue id='userAddress' visibility='hidden'></div>
         </td>
         <td width='60%'><td>
     </tr></table>
     <br>
     <table id='CBDTable' border=1 width='100%' align='center'>
         <tr width='100%'><td width='100%' align='center' colspan=2>
-            <b>CBD at address </b>
-            <font color="#696969">
-              <span class="insertAddress">loading...</span>
-            <br>
+            <b>Contract Address </b>
+            <span class="insertAddress">loading...</span><br>
             </font>
             <small><a id="etherscanLink" href=''>View on etherscan.io</a></small><br>
             <big><big>State: <span id='CBDInfoOutput'>loading...</span><br>
-            <font color='blue'><span id='CBDBalanceOutput' color='blue'><span>loading...</font></big><br>
-            held in CBD</big><br>
+        
     		<form id='recoverFundsInputGroup' hidden='true'>
-    			<input type='button' value='Cancel CBD and Recover Funds' onClick='callRecoverFunds()'>
+    			<input type='button' value='Cancel Contract - Recover Funds' onClick='callRecoverFunds()'>
     		</form>
             <br>
             <table width='40%'>
@@ -49,9 +46,9 @@
                         <table width='100%'>
                             <tr width='100%'>
                                 <td align='right'><span id='CBDFundsDepositedOutput'>loading...</span> </td>
-                                <td> deposited</td>
+                                <td> Ether deposited</td><br><br>
                                 <td align='right'><font color='green'><span id='CBDFundsReleasedOutput' color='blue'>loading...</span></font> </td>
-                                <td> released</td>
+                                <td> Ether released</td>
                             </tr>
                             </tr><tr>
                                 <td> </td>
@@ -62,14 +59,8 @@
                             </tr>
                         </table>
                     </td>
-                    <td width='35%' align='center'>
-                        Commit Threshold:<br>
-                        <font color="#cc7700">
-                        <span id='CBDCommitThresholdOutput'>loading...</span>
-                        </font>
-                    </td>
-                    <td align='center'>
-                        Default Action:<br>
+                        <td align='center'>
+                       Withdraw Funds:<br>
                         <font color="#cf7700">
                         <span id='CBDDefaultActionOutput'>loading...</span>
                         </font>
@@ -81,7 +72,7 @@
                       <span id='CBDDefaultActionTriggerTime'></span>
                     </td>
                     <td id='CBDDefaultTimeoutLengthGroup' align='center'>
-                      Default Timeout Length: <br>
+                      Time: <br>
                         <span id="CBDDefaultTimeoutLength"></span>
                         <form id="delayDefaultActionForm" hidden='true'>
                           <input type='button' value='delayDefaultAction' onClick='delayDefaultRelease()'>
@@ -92,17 +83,17 @@
         </td></tr>
         <tr>
             <td width='50%' align='center'>
-                Payer:<br><span id='CBDlicensedArchitectOutput'>loading...</span>
+                Architect:<br><span id='CBDlicensedArchitectOutput'>loading...</span>
             </td>
             <td width='50%' align='center'>
-                Recipient:<br>
+                Associate:<br>
                 <span id='CBDRecipientOutput'>loding...</span>
                 <div id='commitInputGroup' hidden='true'><button onclick="callCommit()">Commit to CBD</button></div>
             </td>
         </tr>
         <tr>
             <td align='center'>
-                Payer String:<br>
+                Architect Statement:<br>
                 <div id='updatelicensedArchitectStringInputGroup' hidden='true'>
     				<button id='payerStringUpdateStartButton' onclick="startPayerStringUpdate()">Update</button>
     				<textarea id='payerStringUpdateTextarea' rows='15' cols='80' hidden='true'></textarea><br>
@@ -112,7 +103,7 @@
                 <div id='CBDPayerStringOutput' align='left'></div>
             </td>
             <td align='center'>
-                Recipient String:<br>
+                Associate Statement:<br>
                 <div id='updateRecipientStringInputGroup' hidden='true'>
     				<button id='recipientStringUpdateStartButton' onclick="startRecipientStringUpdate()">Update</button>
     				<textarea id='associateMessageUpdateTextarea' rows='15' cols='80' hidden='true'></textarea><br>
