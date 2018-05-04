@@ -9,7 +9,7 @@ import "./EIP20Interface.sol";
 import "./Owned.sol";
 import "./CBDContract.sol";
 
-contract SampleToken is EIP20Interface, Owned {
+contract Palladiosoft1Token is EIP20Interface, Owned {
 
     uint256 constant private MAX_UINT256 = 2**256 - 1;
     mapping (address => uint256) public balances;
@@ -26,7 +26,7 @@ contract SampleToken is EIP20Interface, Owned {
 
     uint8 public commitThreshold;
 
-    function SampleToken(
+    function Palladiosoft1Token(
     ) public {
         totalSupply = 50000000000000000000000;          // Update total supply
         balances[msg.sender] = totalSupply;             // Give the creator all initial tokens
