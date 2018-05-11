@@ -1,35 +1,35 @@
 <!DOCTYPE html>
 <html>
   <head>
+
       <meta charset="utf-8">
-      <title>Palladio - Collaborative Blockchain Design (CBD)</title>
-    
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-      <link rel="stylesheet" href="css/app.css">
+     <title>New Contract</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      <link rel="stylesheet" href="css/common.css">
     
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
       <script src="https://wallet.metamask.io/metamascara.js"></script>
-      <script src="script/create.js"></script>
+  
+    
+  <script src="js/lib/embark.js"></script>
+  <script src="js/lib/jquery.js"></script>
+  <script src="js/lib/constants.js"></script>
+  <script src="js/create.js"></script>
   </head>
-  <a href='/'>Home</a><br><br> 
-  <body class='container'>
-   <big><big><big><b>Create New Contract</b></big></big></big><br>
-    <br><br><br>
-   
+  <a href='/'>Palladio Home</a><br> 
+  <body class='container'><br>
+     <h3>New Contract</h3><br>
     Architect Account: <select id="architectAccount"></select><br>
-    <small><a target="_blank" href="https://metamask.io">Where is my account?</a></small><br><br>
+    <a target="_blank" href="https://metamask.io">Access your account by installing Metamask</a><br><br>
 
-    Contract Time: <input type='text' id='defaultTimeoutLengthInHoursInput' name='defaultTimeoutLengthInHoursInput'  placeholder='Hours'>
-    <br><small><a target="_blank" href="https://coinmarketcap.com/calculator/">How many hours should it take to complete?</a></small><br><br>
+    Contract Time: <input type='text' id='defaultTimeoutLengthInHoursInput' name='defaultTimeoutLengthInHoursInput'  placeholder='Hours'><br><br>
 
-    Contract Value: <input id = 'paymentAmountInput' name='paymentAmountInput' type='text'  placeholder='Ethereum' size='7'>
-    <br><small><a target="_blank" href="https://coinmarketcap.com/calculator/">What is Ethereum?</a></small><br><br>
-   
-    Category:
-    <select id="category"><br><br>
+    Contract Value: <input id = 'paymentAmountInput' name='paymentAmountInput' type='text'  placeholder='Ether' size='7'><br>
+    <a target="_blank" href="https://coinmarketcap.com/calculator/">Convert CAD to Ethereum</a><br><br>
+      
+    <select id="category"><br>
       <option>Programming</option>
       <option>Site Analysis</option>
       <option>Schematic Design</option>
@@ -40,18 +40,22 @@
       <option>Construction Documents</option>
       <option>Specifications and Material Research</option>
       <options>Documents Checking and Coordination</options>
-    </select>
+    </select><br>
 
-<br><small><a target="_blank" href="http://www.oaa.on.ca/images/docs/1328214720_CERB-3720hours.pdf">Choosing a category</a></small><br><br>
-
-    Architect's Proffesional Statement:<br><textarea id='description' name='description' cols='80' rows='5' placeholder="Describe the task and include reference links."></textarea><br><br>
+    <a target="_blank" href="http://www.oaa.on.ca/images/docs/1328214720_CERB-3720hours.pdf">Canadian Experience Record Book</a><br><br>
+  
+  <P><h2>Architect's Proffesional Statement</h2></P>
+  <textarea id='description' name='description' cols='80' rows='15' placeholder="Include specific activities the associate should complete (include links, descriptions, and references."></textarea><br><br>
     
-<input id="onCreateCBDBtn" type='submit' value='Post Contract' onclick="useCBDFormInput()">
+ <input id="onCreateCBDBtn" type='submit' value='Post Contract' onclick="useCBDFormInput()">
     <div id='outputDiv'></div><br><br>
 
-    <a href='./getAllCBDs.html'>Browse Contracts</a><br> 
+
+    <a href='/getAllCBDs.html'>Browse Contracts</a><br>
+
+    <br><br><br>
 
   </body>
-</html>
 
+</html>
 
