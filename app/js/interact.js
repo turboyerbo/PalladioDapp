@@ -44,11 +44,11 @@ function onError(err)
 
 __loadManagerInstance.execWhenReady(function() {
   //window.etherscanURL = "https://etherscan.io/address/"
-  //window.etherscanURL = "https://ropsten.etherscan.io/address/";
+  window.etherscanURL = "https://ropsten.etherscan.io/address/";
 
   params = getSearchParameters();
   address = params["contractAddress"]
-  CBDContract.options.address = address
+  CBDContract.options.address = address;
 
   getEventsAndParticipants('logs','getLogs','address=' + address);
   registerForNewEvents();
@@ -90,10 +90,10 @@ function insertInstanceStatsInPage(CBD, address){
   switch(CBD.state)
   {
     case 0:
-    $('#CBDTable').css("background-color", "rgb(204, 255, 204)");
+    $('#CBDTable').css("background-color", "#213E4D");
     break
     case 1:
-    $('#CBDTable').css("background-color", "cyan");
+    $('#CBDTable').css("background-color", "#2196F3");
     break;
     case 2:
     $('#CBDTable').css("background-color", "grey");
@@ -134,7 +134,7 @@ function updateExtraInput(CBD) {
         console.log(1)
         document.getElementById('CBDDefaultActionTriggerTime').hidden = false;
         document.getElementById('CBDDefaultTimeoutLengthGroup').hidden = false;
-        document.getElementById('defaultActionInputGroup').hidden = false;
+        //document.getElementById('defaultActionInputGroup').hidden = false;
         document.getElementById('delayDefaultActionForm').hidden = false;
       }
       else if((CBD.autoreleaseTime > currentTime && CBD.state == 1 && (userIsRecipient || userIslicensedArchitect))){
@@ -183,7 +183,7 @@ function onUserAddressesNotVisible() {
     document.getElementById('userAddress').innerHTML = "Can't find user addresses. If using metamask, are you sure it's unlocked and initialized?<br>";
 }
 function onUserAddressesVisible(account) {
-    document.getElementById('userAddress').innerHTML = "User address:<br>" + account;
+    document.getElementById('userAddress').innerHTML = "Registered Account: " + account;
 }
 
 function recipientStringEditMode(flag) {
@@ -348,7 +348,7 @@ function registerForNewEvents()
 function insertAllInChat(eventArray){
   eventArray.forEach(function(eventObject){
     who = "Contract"
-    text = eventObject.event
+    text = eventObject.event;
     if (eventObject.event == "LicensedArchitectStatement") {
       who = "Architect"
       text = eventObject.returnValues[0]

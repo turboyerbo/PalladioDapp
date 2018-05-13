@@ -1,68 +1,77 @@
-<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Palladio - Interact with CBD</title>
+    <title>Palladio - CAD with CBD</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/app.css">
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://wallet.metamask.io/metamascara.js"></script>
+
+
     <script type="text/javascript" src="js/lib/embark.js"></script>
     <script type="text/javascript" src="js/lib/jquery.js"></script>
     <script type="text/javascript" src="js/lib/constants.js"></script>
-    <script type="text/javascript" src="js/interact.js"></script>
+    <script src="js/interact.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="style/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="style/interact.css">
+
   </head>
+  <br><a href='/'>Palladio Home</a>
+  <body class='container'><br><br> 
   <body>
-    <h1 align="center">Palladio</h1>
-    <h2 align="center">Interact</h2>
-    <table><tr>
+    <h1 align="center">PalladioCAD</h1><br>
+ 
+    <table><tr><font color='#ffffff'>
         <td width='100%'>
-            <div align='center' color=blue id='userAddress'></div>
+            <center><div align='center' color=#ffffff id='userAddress'></div></center>
         </td>
-        <td width='60%'><td>
+        <td width='80%'><td>
     </tr></table>
-    <br>
-    <table id='CBDTable' border=1 width='100%' align='center'>
-        <tr width='100%'><td width='100%' align='center' colspan=2>
-            <b>CBD at address </b>
-            <font color="#696969">
-              <span class="insertAddress">loading...</span>
+    <br><br>
+    <table id='CBDTable' border=1 width='80%' align='center'>
+        <tr width='80%'><td width='80%' align='center' colspan=2><br><br>
+              Contract: <br><br>
+
+              <span color="#ffffff" class="insertAddress">loading...</span><br><br>
+              <small><a href='' id="etherscanLink" >View on etherscan.io</a></small><br><br>
+
+            <small>This Contract is <span id='CBDInfoOutput'>loading...</span><br>with a value of
+            <font color='#ffffff'><span id='CBDBalanceOutput'><span>loading...</font></small><br>
             <br>
-            </font>
-            <small><a id="etherscanLink" href=''>View on etherscan.io</a></small><br>
-            <big><big>State: <span id='CBDInfoOutput'>loading...</span><br>
-            <font color='blue'><span id='CBDBalanceOutput' color='blue'><span>loading...</font></big><br>
-            held in CBD</big><br>
     		<form id='recoverFundsInputGroup' hidden='true'>
-    			<input type='button' value='Cancel CBD and Recover Funds' onClick='callRecoverFunds()'>
+    		<input type='button' value='Cancel CBD and Recover Funds' onClick='callRecoverFunds()'>
     		</form>
             <br>
-            <table width='40%'>
-                <tr width='100%'>
-                    <td width='35%' align='center'>
+            <table width='80%'>
+                <tr width='80%'>
+                    <td width='50%' align='center'>
                         <form id='licensedArchitectFundsInputGroup' hidden='true'>
-                            <input type='text' name='amount' size=7><br>
-    						            <input type='button' value='Add Funds' onClick='addFundsFromForm()'>
+                            <input type='text' name='amount' size=3><br>
+    						            <input type='button' value='Add Funds' onClick='addFundsFromForm()'></font>
                         </form>
             </td>
                     <td>
-                        <table width='100%'>
-                            <tr width='100%'>
-                                <td align='right'><span id='CBDFundsDepositedOutput'>loading...</span> </td>
+                        <table width='80%'>
+                            <tr width='80%'>
+                               <small><td align='right'><span id='CBDFundsDepositedOutput'>loading...</span> </td><br>
                                 <td> deposited</td>
-                                <td align='right'><font color='green'><span id='CBDFundsReleasedOutput' color='blue'>loading...</span></font> </td>
+                                <td align='right'><font><span id='CBDFundsReleasedOutput'>loading...</span></font> </td><br>
                                 <td> released</td>
+                            </small>
                             </tr>
                             </tr><tr>
                                 <td> </td>
-                            </tr><tr width='100%'>
-                                <big>
+                            </tr><tr width='80%'>
                                 <td align='right'></td>
-                                </big>
-                            </tr>
+                                </tr></small> 
                         </table>
                     </td>
-                    <td width='35%' align='center'>
+                    <!--<td width='35%' align='center' display='hidden'>
                         Commit Threshold:<br>
                         <font color="#cc7700">
                         <span id='CBDCommitThresholdOutput'>loading...</span>
@@ -76,12 +85,12 @@
                         <div id='defaultActionInputGroup' hidden='true'>
                           <input type='button' value='callDefaultAction' onClick='callDefaultAction()'>
                         </div>
-                    </td>
+                    </td> -->
                     <td align='center'>
-                      <span id='CBDDefaultActionTriggerTime'></span>
+                    <span id='CBDDefaultActionTriggerTime'></span>
                     </td>
                     <td id='CBDDefaultTimeoutLengthGroup' align='center'>
-                      Default Timeout Length: <br>
+                      Time: <br>
                         <span id="CBDDefaultTimeoutLength"></span>
                         <form id="delayDefaultActionForm" hidden='true'>
                           <input type='button' value='delayDefaultAction' onClick='delayDefaultRelease()'>
@@ -92,31 +101,31 @@
         </td></tr>
         <tr>
             <td width='50%' align='center'>
-                Payer:<br><span id='CBDlicensedArchitectOutput'>loading...</span>
+                Architect:<br><span id='CBDlicensedArchitectOutput'>loading...</span>
             </td>
             <td width='50%' align='center'>
-                Recipient:<br>
+                Associate:<br>
                 <span id='CBDRecipientOutput'>loding...</span>
-                <div id='commitInputGroup' hidden='true'><button onclick="callCommit()">Commit to CBD</button></div>
+                <div id='commitInputGroup' hidden='true'><button onclick="callCommit()">Commit to Contract</button></div>
             </td>
         </tr>
         <tr>
             <td align='center'>
-                Payer String:<br>
+                Architect's Statements:<br>
                 <div id='updatelicensedArchitectStringInputGroup' hidden='true'>
-    				<button id='payerStringUpdateStartButton' onclick="startPayerStringUpdate()">Update</button>
+    				<button id='payerStringUpdateStartButton' onclick="startPayerStringUpdate()">Chat</button><br><br>
     				<textarea id='payerStringUpdateTextarea' rows='15' cols='80' hidden='true'></textarea><br>
-    				<button id='payerStringUpdateCommitButton' hidden='true' onClick="commitPayerStringUpdate()">Commit Update</button>
+    				<button id='payerStringUpdateCommitButton' hidden='true' onClick="commitPayerStringUpdate()">Post Statement</button><br><br>
     				<button id='payerStringUpdateCancelButton' hidden='true' onClick="cancelPayerStringUpdate()">Cancel</button>
     			</div>
                 <div id='CBDPayerStringOutput' align='left'></div>
             </td>
             <td align='center'>
-                Recipient String:<br>
+                Associate's Statements:<br>
                 <div id='updateRecipientStringInputGroup' hidden='true'>
-    				<button id='recipientStringUpdateStartButton' onclick="startRecipientStringUpdate()">Update</button>
+    				<button id='recipientStringUpdateStartButton' onclick="startRecipientStringUpdate()">Chat</button><br><br>
     				<textarea id='associateMessageUpdateTextarea' rows='15' cols='80' hidden='true'></textarea><br>
-    				<button id='recipientStringUpdateCommitButton' hidden='true' onClick="commitAssociateMessageUpdate()">Commit Update</button>
+    				<button id='recipientStringUpdateCommitButton' hidden='true' onClick="commitAssociateMessageUpdate()">Post Statement</button><br><br>
     				<button id='recipientStringUpdateCancelButton' hidden='true' onClick="cancelRecipientStringUpdate()">Cancel</button>
     			</div>
                 <div id='CBDRecipientStringOutput' align='left'></div>
