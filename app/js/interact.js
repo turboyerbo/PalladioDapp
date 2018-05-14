@@ -91,7 +91,7 @@ function insertInstanceStatsInPage(CBD, address){
   {
     case 0:
     $('#CBDTable').css("background-color", "#213E4D");
-    break
+    break;
     case 1:
     $('#CBDTable').css("background-color", "#2196F3");
     break;
@@ -218,14 +218,14 @@ function commitAssociateMessageUpdate() {
 function licensedArchitectStringEditMode(flag) {
 	if (flag) {
 		$('#licensedArchitectStringUpdateStartButton').hide();
-		$('#licensedArchitectStringUpdateTextarea').show();
+		$('#licensedArchitectMessageUpdateTextarea').show();
 		$('#licensedArchitectStringUpdateCommitButton').show();
 		$('#licensedArchitectStringUpdateCancelButton').show();
 		$('#CBDlicensedArchitectStringOutput').hide();
 	}
 	else {
 		$('#licensedArchitectStringUpdateStartButton').show();
-		$('#licensedArchitectStringUpdateTextarea').hide();
+		$('#licensedArchitectMessageUpdateTextarea').hide();
 		$('#licensedArchitectStringUpdateCommitButton').hide();
 		$('#licensedArchitectStringUpdateCancelButton').hide();
 		$('#CBDlicensedArchitectStringOutput').show();
@@ -239,8 +239,8 @@ function startlicensedArchitectStringUpdate() {
 function cancellicensedArchitectStringUpdate() {
 	licensedArchitectStringEditMode(false);
 }
-function commitlicensedArchitectStringUpdate() {
-	callUpdatelicensedArchitectString($('#licensedArchitectStringUpdateTextarea').val());
+function commitlicensedArchitecMessageUpdate() {
+	callLoglicensedArchitectMessage($('#licensedArchitectUpdateTextarea').val());
 	licensedArchitectStringEditMode(false);
 }
 
