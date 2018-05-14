@@ -278,7 +278,28 @@ contract CBDContract {
         internalRelease(this.balance);
     }
 
-    function internalRelease(uint amount)
+   
+
+    ////////////////////////////////////////////////////////
+
+    // Chat/logging functions
+    function loglicensedArchitectStatement(string statement)
+    public
+    onlylicensedArchitect() 
+    {
+        LicensedArchitectStatement(statement);
+    }
+
+    function logassociateArchitectStatement(string statement)
+    public
+    onlyassociateArchitect() 
+    {
+        AssociateArchitectStatement(statement);
+    }
+
+    ////////////////////////////////////////////////////////
+
+     function internalRelease(uint amount)
     private
     inState(State.Committed)
     {
@@ -303,25 +324,7 @@ contract CBDContract {
             owner.removeCBDContract(id);
         }
     }
-
-    ////////////////////////////////////////////////////////
-
-    // Chat/logging functions
-    function loglicensedArchitectStatement(string statement)
-    public
-    onlylicensedArchitect() 
-    {
-        LicensedArchitectStatement(statement);
-    }
-
-    function logassociateArchitectStatement(string statement)
-    public
-    onlyassociateArchitect() 
-    {
-        AssociateArchitectStatement(statement);
-    }
-
-    ////////////////////////////////////////////////////////
+    
 
     modifier isFromFactory() {
         require(msg.sender == factory);
