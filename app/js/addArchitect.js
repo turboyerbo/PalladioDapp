@@ -82,3 +82,41 @@ __loadManagerInstance.execWhenReady(function() {
     $("#tokenAddress").val(SampleToken.options.address); 
     updateCurrentTokenAddress()
 })
+
+
+function addAssociateAccount(palladioAccount, associateAccount) {
+    
+        CBDContractFactory.methods.getPalladioAddress().call().then(function(addr) {
+            // First, validate this 
+            if (addr != palladioAccount)
+            {
+                alert("ERROR: Palladio account does not match contract account (" + palladioAccount + " != " + addr);
+                return undefined;      
+            }
+            $("#outputDiv").html("Associate adding now: (awaiting confirmation - please wait...)");        
+            return CBDContractFactory.methods.registerAssociate(associateAccount).send({'from':palladioAccount});
+        }, onError).then(function(result) {
+            $("#onAddAssociateBtn")[0].disabled = false
+            // Should we validate this?
+            return CBDContractFactory.methods.numAssociates().call();
+        }, onError).then(function(value) {
+            $("#outputDiv").html("Associate Added: There are " + value + " architects registered");
+        }, onError);
+    }
+    
+    function onAddArchitect() {
+    
+        var palladioAccount = getSelectedAccount("#palladioAccount")
+        var associateAccount = $("#associateAccount").val(); 
+    
+        if (!validateAccount(palladioAccount))
+            return
+            
+        if (!validateAccount(associateAccount))
+            return
+        
+        $('#onAddAssociateBtn')[0].disabled = true
+        addAssociateAccount(palladioAccount, associateAccount);
+    }
+    
+    //-------------------------------------------------------------------

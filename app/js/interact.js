@@ -90,7 +90,7 @@ function insertInstanceStatsInPage(CBD, address){
   switch(CBD.state)
   {
     case 0:
-    $('#CBDTable').css("background-color", "#213E4D");
+    $('#CBDTable').css("background-color", "#fffff");
     break;
     case 1:
     $('#CBDTable').css("background-color", "#2196F3");
