@@ -27,7 +27,7 @@ function onError(err)
   document.getElementById('delayDefaultActionForm').hidden = true;
 
   $('.insertAddress').text(CBD.address);
-  $('#etherscanLink').attr("href", `${window.etherscanURL}${CBD.address}`);
+  $('#etherscanLink').attr("href", '${window.etherscanURL}${CBD.address}');
   $('#CBDInfoOutput').text("Doesn't exist/Destroyed");
   $('#CBDlicensedArchitectOutput').text("None")
   $('#CBDRecipientOutput').text("None")
@@ -47,7 +47,7 @@ __loadManagerInstance.execWhenReady(function() {
   window.etherscanURL = "https://ropsten.etherscan.io/address/";
 
   params = getSearchParameters();
-  address = params["contractAddress"]
+  address = params.contractAddress;
   CBDContract.options.address = address;
 
   getEventsAndParticipants('logs','getLogs','address=' + address);
@@ -83,7 +83,7 @@ function insertInstanceStatsInPage(CBD, address){
   $('#CBDFundsDepositedOutput').text(CBD.amountDeposited + ' ETH');
   $('#CBDFundsReleasedOutput').text(CBD.amountReleased + ' ETH');
 
-  //$('#CBDDefaultActionOutput').text(CBD.defaultAction);
+  $('#CBDDefaultActionOutput').text(CBD.defaultAction);
   $('#CBDDefaultTimeoutLength').text(secondsToDhms(CBD.autoreleaseInterval));
   $('#CBDDefaultActionTriggerTime').text(new Date(CBD.autoreleaseTime * 1000).toLocaleString());
 
@@ -104,6 +104,7 @@ function insertInstanceStatsInPage(CBD, address){
 
 function updateExtraInput(CBD) {
   var userIslicensedArchitect = (CBD.licensedArchitect == web3.eth.defaultAccount);
+  var isNulllicensedArchitect = (CBD.licensedArchitect == '0x0000000000000000000000000000000000000000');
   var userIsRecipient = (CBD.associateArchitect == web3.eth.defaultAccount);
   var isNullRecipient = (CBD.associateArchitect == '0x0000000000000000000000000000000000000000');
 
@@ -120,21 +121,20 @@ function updateExtraInput(CBD) {
       else{
         currentTime = res.timestamp;
       }
-      // if(!CBD.defaultAction){
-      //   document.getElementById('CBDDefaultActionTriggerTime').hidden = true;
-      //   document.getElementById('CBDDefaultTimeoutLengthGroup').hidden = true;
-      //   document.getElementById('defaultActionInputGroup').hidden = true;
-      //   document.getElementById('delayDefaultActionForm').hidden = true;
-      // }
+      if(!CBD.defaultAction){
+      document.getElementById('CBDDefaultActionTriggerTime').hidden = true;
+      document.getElementById('CBDDefaultTimeoutLengthGroup').hidden = true;
+      document.getElementById('defaultActionInputGroup').hidden = true;
+      document.getElementById('delayDefaultActionForm').hidden = true;
+      }
       if(!(userIsRecipient || userIslicensedArchitect)){
         document.getElementById('defaultActionInputGroup').hidden = true;
         document.getElementById('delayDefaultActionForm').hidden = true;
       }
       else if(CBD.autoreleaseTime > 0 && CBD.autoreleaseTime < currentTime && CBD.state === 1 && (userIsRecipient || userIslicensedArchitect)){
-        console.log(1)
         document.getElementById('CBDDefaultActionTriggerTime').hidden = false;
         document.getElementById('CBDDefaultTimeoutLengthGroup').hidden = false;
-        //document.getElementById('defaultActionInputGroup').hidden = false;
+        document.getElementById('defaultActionInputGroup').hidden = false;
         document.getElementById('delayDefaultActionForm').hidden = false;
       }
       else if((CBD.autoreleaseTime > currentTime && CBD.state == 1 && (userIsRecipient || userIslicensedArchitect))){
@@ -203,8 +203,8 @@ function recipientStringEditMode(flag) {
 	}
 }
 function startRecipientStringUpdate() {
-	recipientStringEditMode(true);
-
+  recipientStringEditMode(true);
+  
 	$('#associateMessageUpdateTextarea').val(CBD.recipientString);
 }
 function cancelRecipientStringUpdate() {
@@ -234,13 +234,13 @@ function licensedArchitectStringEditMode(flag) {
 function startlicensedArchitectStringUpdate() {
 	licensedArchitectStringEditMode(true);
 
-	$('#licensedArchitectStringUpdateTextarea').val(CBD.licensedArchitectString);
+	$('#licensedArchitectMessageUpdateTextarea').val(CBD.licensedArchitectString);
 }
 function cancellicensedArchitectStringUpdate() {
 	licensedArchitectStringEditMode(false);
 }
-function commitlicensedArchitecMessageUpdate() {
-	callLoglicensedArchitectMessage($('#licensedArchitectUpdateTextarea').val());
+function commitlicensedArchitectMessageUpdate() {
+	callLoglicensedArchitectMessage($('#licensedArchitectMessageUpdateTextarea').val());
 	licensedArchitectStringEditMode(false);
 }
 
@@ -275,36 +275,21 @@ function releaseFromForm() {
 
     callRelease(amount);
 }
-function handleBurnResult(err, res) {
-    if (err) console.log(err.message);
-}
-function callBurn(amountInEth) {
-    CBDContract.methods.burn(web3.toWei(amountInEth,'ether')).call()
-    .then(handleBurnResult);
-}
-function burnFromForm() {
-    var form = document.getElementById('licensedArchitectFundsInputGroup');
-    var amount = Number(form.elements['amount'].value);
 
-    callBurn(amount);
-}
-function handleAddFundsResult(err, res) {
-	if (err) console.log(err.message);
-}
 function callAddFunds(includedEth) {
   CBDContract.methods.addFunds().send({'value':web3.toWei(includedEth,'ether')})
   .then(handleAddFundsResult)
 }
 function addFundsFromForm() {
 	var form = document.getElementById('licensedArchitectFundsInputGroup');
-	var amount = Number(form.elements['amount'].value);
+	var amount = Number(form.elements.amount.value);
 	callAddFunds(amount);
 }
 function callDefaultAction(){
   CBDContract.methods.callDefaultRelease(logCallResult);
 }
 function delayDefaultRelease(){
-  // var delayDefaultActionInHours = Number($('input[type=text]', '#delayDefaultActionForm').val());
+  var delayDefaultActionInHours = Number($('input[type=text]', '#delayDefaultActionForm').val());
   CBDContract.methods.delayAutorelease().call()
   .then(logCallResult);
 }
@@ -316,12 +301,17 @@ function callLogAssociateMessage(message) {
     CBDContract.methods.logassociateArchitectStatement(message).send({"from":web3.eth.defaultAccount})
     .then(handleUpdateAssociateMessageResult);
 }
-function handleUpdatelicensedArchitectStringResult(err, res) {
+function handleUpdatelicensedArchitectMessageResult(err, res) {
     if (err) console.log(err.message);
 }
 
-function callUpdatelicensedArchitectString(newString) {
-    CBDContract.methods.setlicensedArchitectString(newString, handleUpdatelicensedArchitectStringResult);
+function callLoglicensedArchitectMessage(message) {
+  CBDContract.methods.loglicensedArchitectStatement(message).send({"from":web3.eth.defaultAccount})
+  .then(handleUpdateLicensedMessageResult);
+}
+
+function callUpdatelicensedArchitectMessage(message) {
+    CBDContract.methods.setlicensedArchitectString(message, handleUpdatelicensedArchitectMessageResult);
 }
 function callCancel() {
     CBDContract.methods.recoverFunds().call()

@@ -21,25 +21,25 @@ contract Palladiosoft1Token is EIP20Interface, Owned {
     Some wallets/interfaces might not even bother to look at this information.
     */
     string public name;                   //fancy name: eg Simon Bucks
-    uint8 public decimals;                //How many decimals to show.
+    uint256 public decimals;                //How many decimals to show.
     string public symbol;                 //An identifier: eg SBX
 
-    uint8 public commitThreshold;
+    uint256 public commitThreshold;
 
     function Palladiosoft1Token(
     ) public {
-        totalSupply = 50000000000000000000000;          // Update total supply
+        totalSupply = 50000000 * (10**18);              // Update total supply
         balances[msg.sender] = totalSupply;             // Give the creator all initial tokens
         name = "Palladiosoft1";                         // Set the name for display purposes
         decimals = 18;                                  // Amount of decimals for display purposes
-        symbol = "PL1";                                 // Set the symbol for display purposes
+        symbol = "PCAD";                                 // Set the symbol for display purposes
 
-        commitThreshold = 100;
+        commitThreshold = 5 * (10**18);
 
-        // TESTING - Automatically transfer 10 transactions to my assocuate account
-        address associate = 0x9e9D2970E20558dADbC77BeE00075BA993E1B47E;
-        transfer(associate, commitThreshold * 10000000000000000000);
-    }
+        // TESTING - Automatically transfer 5 transactions to my assocuate account
+        address associate = 0xD16Bacb38907eEE8f93630f20946F23fff7F62De;
+        transfer(associate, commitThreshold * (2)); 
+        }
 
     function transfer(address _to, uint256 _value) public returns (bool success) {
         require(balances[msg.sender] >= _value);
@@ -78,7 +78,7 @@ contract Palladiosoft1Token is EIP20Interface, Owned {
     /////
     // The following 3 functions are the ones that enable commiting to a contract
 
-    function setCommitThreshold(uint8 newThreshold)
+    function setCommitThreshold(uint256 newThreshold)
     public
     ownerOnly()
     {

@@ -75,7 +75,7 @@
                         Commit Threshold:<br>
                         <font color="#cc7700">
                         <span id='CBDCommitThresholdOutput'>loading...</span>
-                        </font>
+                        </font>-->
                     </td>
                     <td align='center'>
                         Default Action:<br>
@@ -85,7 +85,7 @@
                         <div id='defaultActionInputGroup' hidden='true'>
                           <input type='button' value='callDefaultAction' onClick='callDefaultAction()'>
                         </div>
-                    </td> -->
+                    </td> 
                     <td align='center'>
                     <span id='CBDDefaultActionTriggerTime'></span>
                     </td>
@@ -97,7 +97,7 @@
                         </form>
                     </td>
                 </tr>
-            </table>
+        </table>
         </td></tr>
         <tr>
             <td width='50%' align='center'>
@@ -111,21 +111,22 @@
         </tr>
         <tr>
             <td align='center'>
-                Architect's Statements:<br>
+                Architect's Statements:<br><br>
                 <div id='updatelicensedArchitectStringInputGroup' hidden='true'>
-    				<button id='payerStringUpdateStartButton' onclick="startPayerStringUpdate()">Chat</button><br><br>
-    				<textarea id='payerStringUpdateTextarea' rows='15' cols='80' hidden='true'></textarea><br>
-    				<button id='payerStringUpdateCommitButton' hidden='true' onClick="commitPayerStringUpdate()">Post Statement</button><br><br>
-    				<button id='payerStringUpdateCancelButton' hidden='true' onClick="cancelPayerStringUpdate()">Cancel</button>
+    				<button id='licensedArchitectStringUpdateStartButton' onclick="startlicensedArchitectStringUpdate()">Chat</button><br><br>
+    				<textarea id='licensedArchitectMessageUpdateTextarea' rows='15' cols='80' hidden='true'></textarea><br>
+    				<button id='licensedArchitectStringUpdateCommitButton' hidden='true' onClick="commitlicensedArchitectMessageUpdate()">Log Statement</button><br><br>
+    				<button id='licensedArchitectStringUpdateCancelButton' hidden='true' onClick="cancellicensedArchitectStringUpdate()">Cancel</button>
     			</div>
-                <div id='CBDPayerStringOutput' align='left'></div>
+                <div id='CBDLicensedArchitectStringOutput' align='left'></div>
             </td>
+   
             <td align='center'>
-                Associate's Statements:<br>
+                Associate's Statements:<br><br>
                 <div id='updateRecipientStringInputGroup' hidden='true'>
     				<button id='recipientStringUpdateStartButton' onclick="startRecipientStringUpdate()">Chat</button><br><br>
     				<textarea id='associateMessageUpdateTextarea' rows='15' cols='80' hidden='true'></textarea><br>
-    				<button id='recipientStringUpdateCommitButton' hidden='true' onClick="commitAssociateMessageUpdate()">Post Statement</button><br><br>
+    				<button id='recipientStringUpdateCommitButton' hidden='true' onClick="commitAssociateMessageUpdate()">Log Statement</button><br><br>
     				<button id='recipientStringUpdateCancelButton' hidden='true' onClick="cancelRecipientStringUpdate()">Cancel</button>
     			</div>
                 <div id='CBDRecipientStringOutput' align='left'></div>
