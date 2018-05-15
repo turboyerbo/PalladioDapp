@@ -6,19 +6,35 @@
   <script src="js/lib/constants.js"></script>
   <script src="js/addArchitect.js"></script>
   </head>
+  <br><a href='/'>Palladio Home</a>
   <body class='container'>
-   <big><big><big><b>Add Architect</b></big></big></big><br>
+   <center><big><big><big><b>PalladioCAD Admin Page</b></big></big></big><br>
     <br><br><br>
    
-    Management Account: <select id="palladioAccount" style="width: 300px"></select><br><br>
-    Architect Account: <input id='architectAccount' placeholder='0x12345...' size='50'><br><br>
+    Management Account: <select align="right" id="palladioAccount" style="width: 300px"></select><br><br>
+    Architect Account: <input id='architectAccount' placeholder='0x12345...' size='50'>
+   <input type='submit' id='onAddArchitectBtn' value='Register Architect Account' onclick="onAddArchitect()">
     <br>
-    <br>
-<center> <input type='submit' id='onAddArchitectBtn' value='Add Account as Architect' onclick="onAddArchitect()"> </center>
     <div id='outputDiv'></div>
-    Set Token Address: <input id='tokenAddress' placeholder='0x12345...' size='50'><br><br>
-    <center> <input type='submit' id='onSetTokenBtn' value='Set Token Address' onclick="onSetTokenAddress()"> </center>
+    <br>
+    <br>
+    <br>
+    <br>
+    Set Token Address: <input id='tokenAddress' placeholder='0x12345...' size='50'>
+    <input type='submit' id='onSetTokenBtn' value='Set Token Address' onclick="onSetTokenAddress()">
+    <br>
     <div id='tokenOutputDiv'></div>
+    <br>
+    Associate Account: <input id='associateAccount' placeholder='0x12345...' size='50'>
+    <input type='submit' id='onAddAssociateBtn' value='Register Associate Account' onclick="onAddAssociate()"><br><br><br>
+    <br>
+    <br>
+    <br>
+    <br>
+    This page is for PalladioCAD Management.<br>
+    Get some PCAD Tokens in your account by emailing <a target="_blank" href="mailto:jordan@palladio.io">jordan@palladio.io</a>
+  </center>
+    
   </body>
 </html>
 
