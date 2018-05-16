@@ -29,8 +29,8 @@
       },
       "CBDContractFactory": {
       },
-      "Palladiosoft1Token": {
-        "gas": 1500000
+      "PalladioCadToken": {
+        "gas": 2100000
       }
     }
   }
