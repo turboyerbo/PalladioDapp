@@ -286,9 +286,9 @@ function addFundsFromForm() {
 	callAddFunds(amount);
 }
 function callDefaultAction(){
-  CBDContract.methods.callDefaultRelease(logCallResult);
+  CBDContract.methods.callDefaultAction(logCallResult);
 }
-function delayDefaultRelease(){
+function delayDefaultAction(){
   var delayDefaultActionInHours = Number($('input[type=text]', '#delayDefaultActionForm').val());
   CBDContract.methods.delayAutorelease().call()
   .then(logCallResult);
