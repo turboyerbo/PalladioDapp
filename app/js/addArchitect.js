@@ -100,11 +100,11 @@ function addAssociateAccount(palladioAccount, associateAccount) {
             // Should we validate this?
             return CBDContractFactory.methods.numAssociates().call();
         }, onError).then(function(value) {
-            $("#outputDiv").html("Associate Added: There are " + value + " architects registered");
+            $("#outputDiv").html("Associate Added: There are " + value + " associates registered");
         }, onError);
     }
     
-    function onAddArchitect() {
+    function onAddAssociate() {
     
         var palladioAccount = getSelectedAccount("#palladioAccount")
         var associateAccount = $("#associateAccount").val(); 

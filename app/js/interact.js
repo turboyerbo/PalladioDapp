@@ -252,7 +252,7 @@ function handleCommitResult(res) {
 
 function callCommit() {
   //CBDContract.methods.commit().send({'value':commitAmountInWei, "from":web3.eth.defaultAccount})
-  Palladiosoft1Token.methods.commit(CBDContract.options.address).send({"from":web3.eth.defaultAccount})
+  PalladioCadToken.methods.commit(CBDContract.options.address).send({"from":web3.eth.defaultAccount})
   .then(handleCommitResult);
 }
 function handleRecoverFundsResult(err, res) {

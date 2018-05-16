@@ -37,7 +37,7 @@ contract PalladioCadToken is EIP20Interface, Owned {
         commitThreshold = 5 * (10**18);
 
         // TESTING - Automatically transfer 5 transactions to my assocuate account
-        address associate = 0xD16Bacb38907eEE8f93630f20946F23fff7F62De;
+        address associate = 0x0F990402719D0C99600Bb725C04945526731F7d1;
         transfer(associate, commitThreshold * (2)); 
         }
 
