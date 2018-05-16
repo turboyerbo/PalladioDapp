@@ -79,7 +79,7 @@ __loadManagerInstance.execWhenReady(function() {
         $("#outputDiv").html("There are " + value + " architects registered");
     }, onError)
 
-    $("#tokenAddress").val(SampleToken.options.address); 
+    $("#tokenAddress").val(PalladioCadToken.options.address); 
     updateCurrentTokenAddress()
 })
 

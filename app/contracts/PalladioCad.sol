@@ -9,7 +9,7 @@ import "./EIP20Interface.sol";
 import "./Owned.sol";
 import "./CBDContract.sol";
 
-contract Palladiosoft1Token is EIP20Interface, Owned {
+contract PalladioCadToken is EIP20Interface, Owned {
 
     uint256 constant private MAX_UINT256 = 2**256 - 1;
     mapping (address => uint256) public balances;
@@ -26,11 +26,11 @@ contract Palladiosoft1Token is EIP20Interface, Owned {
 
     uint256 public commitThreshold;
 
-    function Palladiosoft1Token(
+    function PalladioCadToken(
     ) public {
         totalSupply = 50000000 * (10**18);              // Update total supply
         balances[msg.sender] = totalSupply;             // Give the creator all initial tokens
-        name = "Palladiosoft1";                         // Set the name for display purposes
+        name = "PalladioCad";                         // Set the name for display purposes
         decimals = 18;                                  // Amount of decimals for display purposes
         symbol = "PCAD";                                 // Set the symbol for display purposes
 
