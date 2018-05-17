@@ -4,8 +4,4 @@ dist/
 .node-xmlhttprequest*
 node_modules/
 package-lock.json
-app/js/getAllCBDs.js
-app/js/getAllCBDs.js
-app/js/getAllCBDs.js
-app/js/getAllCBDs.js
-package.json
+config/testnet/password

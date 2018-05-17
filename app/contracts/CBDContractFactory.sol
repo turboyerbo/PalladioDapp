@@ -2,6 +2,7 @@ pragma solidity ^0.4.17;
 
 import "./CBDContract.sol";
 
+
 contract CBDContractFactory {
 
     // In order to verify incoming orders are from
@@ -93,7 +94,8 @@ contract CBDContractFactory {
     {
         //pass along any ether to the constructor
         uint nextId = CBDs.length;
-        CBDContract cbd = (new CBDContract).value(msg.value)(msg.sender, nextId, autoreleaseInterval, recordBook, initialStatement);
+        CBDContract cbd = (new CBDContract).value(msg.value)(msg.sender, nextId, autoreleaseInterval,
+        recordBook, initialStatement);
         NewCBD(cbd);
 
         //save created CBDs in contract array
@@ -101,8 +103,8 @@ contract CBDContractFactory {
     }
 
     function getCBDContract(uint id)
-    constant
     public
+    constant
     returns(address)
     {
         return CBDs[id];
@@ -131,10 +133,9 @@ contract CBDContractFactory {
     }
     
     // Modifiers below:
-    
-    // Ensure function call came from palladio
+    // Ensure function call came from Palladio Management (aLPHA TEST ACCOUNT): 0x26e0c9d26433188bDB1A9D896B75134eFe2F3959
     modifier fromPalladio() {
-        require(palladioManagement == msg.sender);
+    require(palladioManagement == msg.sender);
         _;
     }
 
