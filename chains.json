@@ -559,6 +559,14 @@
       "0x30d7c3f9b8a31f0c37fd7e18ff2e66de142921051f0d729199d150064f56b144": {
         "name": "PalladioCadToken",
         "address": "0xbdbc336a80582478765ba2bbf36a0d03a396ae1a"
+      },
+      "0xfce1e417d62ea4b045c38ff16f6b0086d65c66572f51753bbc1cd6d83a889993": {
+        "name": "CBDContractFactory",
+        "address": "0x438fc57c7ff05ece5219f36a54af84a34b327df0"
+      },
+      "0x6527c5d9104d16637dc5d56b3627d7b59f55daf25dd1bba2c4f881d0b8f4e14d": {
+        "name": "PalladioCadToken",
+        "address": "0xabddae412a08819b20387db8735819b9210f0ca4"
       }
     },
     "name": "testnet"
