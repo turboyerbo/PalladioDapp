@@ -5,5 +5,3 @@ dist/
 node_modules/
 package-lock.json
 config/testnet/password
-start_testnet.bat
-*.bat
