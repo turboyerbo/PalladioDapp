@@ -1,7 +1,7 @@
 pragma solidity ^0.4.17;
 
 import "./CBDContractFactory.sol";
-import "./PL1Token.sol";
+import "./PalladioCad.sol";
 
 //*Collaborative Blockchain Design (CBD) begins when the Licensed Architect (Ontario Association of Architects)is: 
 // (1) digitally-verified using their unique Public Key assigned by the Palladio; 
@@ -13,7 +13,7 @@ import "./PL1Token.sol";
 
 // (1) been accredicted by the Canadian Architecture Certification Board (CACB); 
 // (2) authenticated their identity using their unique CACB Public Key to access the form;
-// (3) commits to the contract by making a deposit with Palladio Tokens (PAL)
+// (3) commits to the contract by making a deposit with PalladioCAD Tokens (PCAD)
 
 // The constructor is payable, so the contract can be instantiated with initial funds.
 // In addition, anyone can add more funds to the Payment by calling addFunds.
@@ -36,7 +36,7 @@ import "./PL1Token.sol";
 // Any associate can join the contract once it's been set via commit().
 
 // In the committed state,
-// the Licensed Architect can at any time choose to release any amount of PAL Tokens.
+// the Licensed Architect can at any time choose to release any amount of PL1 Tokens.
 // any Associate Architect and any amount of funds.*
 
 contract CBDContract {
@@ -279,7 +279,28 @@ contract CBDContract {
         internalRelease(this.balance);
     }
 
-    function internalRelease(uint amount)
+   
+
+    ////////////////////////////////////////////////////////
+
+    // Chat/logging functions
+    function loglicensedArchitectStatement(string statement)
+    public
+    onlylicensedArchitect() 
+    {
+        LicensedArchitectStatement(statement);
+    }
+
+    function logassociateArchitectStatement(string statement)
+    public
+    onlyassociateArchitect() 
+    {
+        AssociateArchitectStatement(statement);
+    }
+
+    ////////////////////////////////////////////////////////
+
+     function internalRelease(uint amount)
     private
     inState(State.Committed)
     {
@@ -304,25 +325,7 @@ contract CBDContract {
             owner.removeCBDContract(id);
         }
     }
-
-    ////////////////////////////////////////////////////////
-
-    // Chat/logging functions
-    function loglicensedArchitectStatement(string statement)
-    public
-    onlylicensedArchitect() 
-    {
-        LicensedArchitectStatement(statement);
-    }
-
-    function logassociateArchitectStatement(string statement)
-    public
-    onlyassociateArchitect() 
-    {
-        AssociateArchitectStatement(statement);
-    }
-
-    ////////////////////////////////////////////////////////
+    
 
     modifier isFromFactory() {
         require(msg.sender == factory);

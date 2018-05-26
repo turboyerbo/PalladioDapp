@@ -1,15 +1,15 @@
-pragma solidity ^0.4.17;
-
 /*
 Implements EIP20 token standard: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md
 .*/
+
+
+pragma solidity ^0.4.17;
 
 import "./EIP20Interface.sol";
 import "./Owned.sol";
 import "./CBDContract.sol";
 
-
-contract PL1Token is EIP20Interface, Owned {
+contract PalladioCadToken is EIP20Interface, Owned {
 
     uint256 constant private MAX_UINT256 = 2**256 - 1;
     mapping (address => uint256) public balances;
@@ -20,27 +20,26 @@ contract PL1Token is EIP20Interface, Owned {
     They allow one to customise the token contract & in no way influences the core functionality.
     Some wallets/interfaces might not even bother to look at this information.
     */
-    string public name;                   //PLn Token; n = version of test coin from 1-5
-    uint8 public decimals;                //How many decimals to show. Always use 18 since it is ERC20 standarard
-    string public symbol;                 //An identifier:
-                                          //eg PLD will be the official ticker. For testing use PL1, PL2...PLn
+    string public name;                   //fancy name: eg Simon Bucks
+    uint256 public decimals;                //How many decimals to show.
+    string public symbol;                 //An identifier: eg SBX
 
-    uint8 public commitThreshold;
+    uint256 public commitThreshold;
 
-    function PL1Token(
+    function PalladioCadToken(
     ) public {
-        totalSupply = 50000000000000000000000000;                   // Update total supply
-        balances[msg.sender] = totalSupply;       // Give the creator all initial tokens
-        name = "PL1 Token";                       // Set the name for display purposes
-        decimals = 18;                            // Amount of decimals for display purposes
-        symbol = "PL1";                           // Set the symbol for display purposes
+        totalSupply = 50000000 * (10**18);              // Update total supply
+        balances[msg.sender] = totalSupply;             // Give the creator all initial tokens
+        name = "PalladioCad";                         // Set the name for display purposes
+        decimals = 18;                                  // Amount of decimals for display purposes
+        symbol = "PCAD";                                 // Set the symbol for display purposes
 
-        commitThreshold = 100;                      
+        commitThreshold = 5 * (10**18);
 
-        // TESTING - Automatically transfer 10 transactions to my associate testing account. Andrea Gondola Associate Account: 0xf51f8336cE3fa46a2b37b52456D2271794C015D1
-        address associate = 0xf51f8336cE3fa46a2b37b52456D2271794C015D1;
-        transfer(associate, commitThreshold * 10000000000000000000);
-    }
+        // TESTING - Automatically transfer 5 transactions to my assocuate account
+        address associate = 0x0F990402719D0C99600Bb725C04945526731F7d1;
+        transfer(associate, commitThreshold * (2)); 
+        }
 
     function transfer(address _to, uint256 _value) public returns (bool success) {
         require(balances[msg.sender] >= _value);
@@ -79,7 +78,7 @@ contract PL1Token is EIP20Interface, Owned {
     /////
     // The following 3 functions are the ones that enable commiting to a contract
 
-    function setCommitThreshold(uint8 newThreshold)
+    function setCommitThreshold(uint256 newThreshold)
     public
     ownerOnly()
     {
@@ -99,7 +98,7 @@ contract PL1Token is EIP20Interface, Owned {
 
     }
 
-      //Assemble the given address bytecode. If bytecode exists then the _addr is a contract.
+      //assemble the given address bytecode. If bytecode exists then the _addr is a contract.
     function isContract(address _addr) private view returns (bool is_contract) {
         uint length;
         assembly {

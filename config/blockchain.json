@@ -36,7 +36,7 @@
     "rpcHost": "localhost",
     "rpcPort": 8545,
     "rpcCorsDomain": "http://localhost:8000",
-    "account": {//decide the account number for Palladio Management
+    "account": {
       "password": "config/livenet/password"
     }
   },

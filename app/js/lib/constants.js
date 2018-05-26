@@ -40,7 +40,7 @@ function hexToAscii(str1){
 
 function logCallResult(err, res) {
     if (err) {
-        console.log("Error calling ddddCBD method: " + err.message);
+        console.log("Error calling CBD method: " + err.message);
     }
     else {
         return res;

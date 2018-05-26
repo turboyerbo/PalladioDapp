@@ -20,7 +20,7 @@ function buildCBDRow(cbdObject, index){
       $(`.state:eq(${index})`).parent().css("background-color", "#B4E1E8");
       break;
     case 1:
-      $(`.state:eq(${index})`).parent().css("background-color", "cyan");
+      $(`.state:eq(${index})`).parent().css("background-color", "#F42B01");
       break;
     case 2:
       $(`.state:eq(${index})`).parent().css("background-color", "grey");
@@ -33,9 +33,9 @@ function buildCBDRow(cbdObject, index){
   // $(`.licensedArchitectAddress:eq(${index})`).text(cbdObject.licensedArchitect);
   if(cbdObject.associateArchitect !== "0x0000000000000000000000000000000000000000"){
     // $(`.associateArchitect:eq(${index})`).text("associateArchitect: \n" + );
-    $(`.associateArchitect:eq(${index})`).html(`Associate \n <a href='${window.etherscanURL}${cbdObject.associateArchitect}'>${cbdObject.associateArchitect}</a>`);
+  $(`.associateArchitect:eq(${index})`).html(`Associate: \n <a href='${window.etherscanURL}${cbdObject.associateArchitect}'>${cbdObject.associateArchitect}</a>`);
   }else{
-    $(`.associateArchitect:eq(${index})`).html(`Associate ID (none): <a href='interact.html?contractAddress=${cbdObject.address}'> Commit to this Contract?</a>`);
+  $(`.associateArchitect:eq(${index})`).html(`<a href='interact.html?contractAddress=${cbdObject.address}'> Contract Details </a>`);
   }
   $(`.balance:eq(${index})`).text(cbdObject.balance);
   $(`.commitThreshold:eq(${index})`).text(cbdObject.commitThreshold);

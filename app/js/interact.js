@@ -27,7 +27,7 @@ function onError(err)
   document.getElementById('delayDefaultActionForm').hidden = true;
 
   $('.insertAddress').text(CBD.address);
-  $('#etherscanLink').attr("href", `${window.etherscanURL}${CBD.address}`);
+  $('#etherscanLink').attr("href", '${window.etherscanURL}${CBD.address}');
   $('#CBDInfoOutput').text("Doesn't exist/Destroyed");
   $('#CBDlicensedArchitectOutput').text("None")
   $('#CBDRecipientOutput').text("None")
@@ -43,11 +43,11 @@ function onError(err)
 }
 
 __loadManagerInstance.execWhenReady(function() {
-  //window.etherscanURL = "https://etherscan.io/contractAddress/";
-  //window.etherscanURL = "https://ropsten.etherscan.io/address/";
+  //window.etherscanURL = "https://etherscan.io/address/"
+  window.etherscanURL = "https://ropsten.etherscan.io/address/";
 
   params = getSearchParameters();
-  address = params["contractAddress"]
+  address = params.contractAddress;
   CBDContract.options.address = address;
 
   getEventsAndParticipants('logs','getLogs','address=' + address);
@@ -90,10 +90,10 @@ function insertInstanceStatsInPage(CBD, address){
   switch(CBD.state)
   {
     case 0:
-    $('#CBDTable').css("background-color", "#B4E1E8");
-    break
+    $('#CBDTable').css("background-color", "#fffff");
+    break;
     case 1:
-    $('#CBDTable').css("background-color", "ffffff");
+    $('#CBDTable').css("background-color", "#2196F3");
     break;
     case 2:
     $('#CBDTable').css("background-color", "grey");
@@ -104,6 +104,7 @@ function insertInstanceStatsInPage(CBD, address){
 
 function updateExtraInput(CBD) {
   var userIslicensedArchitect = (CBD.licensedArchitect == web3.eth.defaultAccount);
+  var isNulllicensedArchitect = (CBD.licensedArchitect == '0x0000000000000000000000000000000000000000');
   var userIsRecipient = (CBD.associateArchitect == web3.eth.defaultAccount);
   var isNullRecipient = (CBD.associateArchitect == '0x0000000000000000000000000000000000000000');
 
@@ -120,18 +121,17 @@ function updateExtraInput(CBD) {
       else{
         currentTime = res.timestamp;
       }
-      // if(!CBD.defaultAction){
-      //   document.getElementById('CBDDefaultActionTriggerTime').hidden = true;
-      //   document.getElementById('CBDDefaultTimeoutLengthGroup').hidden = true;
-      //   document.getElementById('defaultActionInputGroup').hidden = true;
-      //   document.getElementById('delayDefaultActionForm').hidden = true;
-      // }
+      if(!CBD.defaultAction){
+      document.getElementById('CBDDefaultActionTriggerTime').hidden = true;
+      document.getElementById('CBDDefaultTimeoutLengthGroup').hidden = true;
+      document.getElementById('defaultActionInputGroup').hidden = true;
+      document.getElementById('delayDefaultActionForm').hidden = true;
+      }
       if(!(userIsRecipient || userIslicensedArchitect)){
         document.getElementById('defaultActionInputGroup').hidden = true;
         document.getElementById('delayDefaultActionForm').hidden = true;
       }
       else if(CBD.autoreleaseTime > 0 && CBD.autoreleaseTime < currentTime && CBD.state === 1 && (userIsRecipient || userIslicensedArchitect)){
-        console.log(1)
         document.getElementById('CBDDefaultActionTriggerTime').hidden = false;
         document.getElementById('CBDDefaultTimeoutLengthGroup').hidden = false;
         document.getElementById('defaultActionInputGroup').hidden = false;
@@ -183,7 +183,7 @@ function onUserAddressesNotVisible() {
     document.getElementById('userAddress').innerHTML = "Can't find user addresses. If using metamask, are you sure it's unlocked and initialized?<br>";
 }
 function onUserAddressesVisible(account) {
-    document.getElementById('userAddress').innerHTML = "User address:<br>" + account;
+    document.getElementById('userAddress').innerHTML = "Registered Account: " + account;
 }
 
 function recipientStringEditMode(flag) {
@@ -203,8 +203,8 @@ function recipientStringEditMode(flag) {
 	}
 }
 function startRecipientStringUpdate() {
-	recipientStringEditMode(true);
-
+  recipientStringEditMode(true);
+  
 	$('#associateMessageUpdateTextarea').val(CBD.recipientString);
 }
 function cancelRecipientStringUpdate() {
@@ -218,14 +218,14 @@ function commitAssociateMessageUpdate() {
 function licensedArchitectStringEditMode(flag) {
 	if (flag) {
 		$('#licensedArchitectStringUpdateStartButton').hide();
-		$('#licensedArchitectStringUpdateTextarea').show();
+		$('#licensedArchitectMessageUpdateTextarea').show();
 		$('#licensedArchitectStringUpdateCommitButton').show();
 		$('#licensedArchitectStringUpdateCancelButton').show();
 		$('#CBDlicensedArchitectStringOutput').hide();
 	}
 	else {
 		$('#licensedArchitectStringUpdateStartButton').show();
-		$('#licensedArchitectStringUpdateTextarea').hide();
+		$('#licensedArchitectMessageUpdateTextarea').hide();
 		$('#licensedArchitectStringUpdateCommitButton').hide();
 		$('#licensedArchitectStringUpdateCancelButton').hide();
 		$('#CBDlicensedArchitectStringOutput').show();
@@ -234,13 +234,13 @@ function licensedArchitectStringEditMode(flag) {
 function startlicensedArchitectStringUpdate() {
 	licensedArchitectStringEditMode(true);
 
-	$('#licensedArchitectStringUpdateTextarea').val(CBD.licensedArchitectString);
+	$('#licensedArchitectMessageUpdateTextarea').val(CBD.licensedArchitectString);
 }
 function cancellicensedArchitectStringUpdate() {
 	licensedArchitectStringEditMode(false);
 }
-function commitlicensedArchitectStringUpdate() {
-	callUpdatelicensedArchitectString($('#licensedArchitectStringUpdateTextarea').val());
+function commitlicensedArchitectMessageUpdate() {
+	callLoglicensedArchitectMessage($('#licensedArchitectMessageUpdateTextarea').val());
 	licensedArchitectStringEditMode(false);
 }
 
@@ -252,7 +252,8 @@ function handleCommitResult(res) {
 
 function callCommit() {
   //CBDContract.methods.commit().send({'value':commitAmountInWei, "from":web3.eth.defaultAccount})
-  PL1Token.methods.commit(CBDContract.options.address).send({"from":web3.eth.defaultAccount})
+
+  PalladioCadToken.methods.commit(CBDContract.options.address).send({"from":web3.eth.defaultAccount})
   .then(handleCommitResult);
 }
 function handleRecoverFundsResult(err, res) {
@@ -275,37 +276,21 @@ function releaseFromForm() {
 
     callRelease(amount);
 }
-function handleBurnResult(err, res) {
-    if (err) console.log(err.message);
-}
-function callBurn(amountInEth) {
-    CBDContract.methods.burn(web3.toWei(amountInEth,'ether')).call()
-    .then(handleBurnResult);
-}
-function burnFromForm() {
-    var form = document.getElementById('licensedArchitectFundsInputGroup');
-    var amount = Number(form.elements['amount'].value);
 
-    callBurn(amount);
-}
-function handleAddFundsResult(err, res) {
-	if (err) console.log(err.message);
-}
 function callAddFunds(includedEth) {
   CBDContract.methods.addFunds().send({'value':web3.toWei(includedEth,'ether')})
   .then(handleAddFundsResult)
 }
 function addFundsFromForm() {
 	var form = document.getElementById('licensedArchitectFundsInputGroup');
-	var amount = Number(form.elements['amount'].value);
+	var amount = Number(form.elements.amount.value);
 	callAddFunds(amount);
 }
 function callDefaultAction(){
-  CBDContract.methods.callDefaultRelease(logCallResult).send({"from":web3.eth.defaultAccount})
-  .then(handleDefaultReleaseResult);
+  CBDContract.methods.callDefaultAction(logCallResult);
 }
-function delayDefaultRelease(){
-  // var delayDefaultActionInHours = Number($('input[type=text]', '#delayDefaultActionForm').val());
+function delayDefaultAction(){
+  var delayDefaultActionInHours = Number($('input[type=text]', '#delayDefaultActionForm').val());
   CBDContract.methods.delayAutorelease().call()
   .then(logCallResult);
 }
@@ -317,12 +302,17 @@ function callLogAssociateMessage(message) {
     CBDContract.methods.logassociateArchitectStatement(message).send({"from":web3.eth.defaultAccount})
     .then(handleUpdateAssociateMessageResult);
 }
-function handleUpdatelicensedArchitectStringResult(err, res) {
+function handleUpdatelicensedArchitectMessageResult(err, res) {
     if (err) console.log(err.message);
 }
 
-function callUpdatelicensedArchitectString(newString) {
-    CBDContract.methods.setlicensedArchitectString(newString, handleUpdatelicensedArchitectStringResult);
+function callLoglicensedArchitectMessage(message) {
+  CBDContract.methods.loglicensedArchitectStatement(message).send({"from":web3.eth.defaultAccount})
+  .then(handleUpdateLicensedMessageResult);
+}
+
+function callUpdatelicensedArchitectMessage(message) {
+    CBDContract.methods.setlicensedArchitectString(message, handleUpdatelicensedArchitectMessageResult);
 }
 function callCancel() {
     CBDContract.methods.recoverFunds().call()
@@ -349,7 +339,7 @@ function registerForNewEvents()
 function insertAllInChat(eventArray){
   eventArray.forEach(function(eventObject){
     who = "Contract"
-    text = eventObject.event
+    text = eventObject.event;
     if (eventObject.event == "LicensedArchitectStatement") {
       who = "Architect"
       text = eventObject.returnValues[0]
