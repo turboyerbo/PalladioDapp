@@ -35,7 +35,7 @@ function useCBDFormInput() {
 
     var commitRecordBook = $("#category").val();
     if (commitRecordBook == '') {
-            alert("Include a link to your DWG file?");
+            alert("Which service would you like to use?");
             return;
 
     }
@@ -49,7 +49,7 @@ function useCBDFormInput() {
 
     var description = $("#description").val();
     if (description == '') {
-        if (!confirm("Please include a link to DWG file!")) {
+        if (!confirm("Include a link to your file?")) {
             return;
         }
     }
